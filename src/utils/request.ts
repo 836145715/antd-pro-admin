@@ -115,7 +115,7 @@ interface CustomMethods {
   delete: <T = any>(url: string, config?: AxiosRequestConfig) => Promise<T>
   request: <T = any>(config: AxiosRequestConfig) => Promise<T>
   // 支持直接调用 instance<User>(...)
-  <T = any>(config: AxiosRequestConfig<T>): Promise<T>
+  <T = any>(config: AxiosRequestConfig): Promise<T>
   <T = any>(url: string, config?: AxiosRequestConfig): Promise<T>
 }
 
