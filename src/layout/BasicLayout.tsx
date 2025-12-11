@@ -1,14 +1,18 @@
 import {
+  ChromeFilled,
+  CrownFilled,
   GithubFilled,
   InfoCircleFilled,
   QuestionCircleFilled,
+  SmileFilled,
+  TabletFilled,
 } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
-import { useState } from "react";
-import defaultProps from "./DefaultProps";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 const BasicLayout = () => {
-  const [pathname, setPathname] = useState("/list/sub-page/sub-sub-page1");
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div
@@ -19,29 +23,95 @@ const BasicLayout = () => {
     >
       <ProLayout
         siderWidth={216}
-        bgLayoutImgList={[
-          {
-            src: "https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png",
-            left: 85,
-            bottom: 100,
-            height: "303px",
-          },
-          {
-            src: "https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png",
-            bottom: -68,
-            right: -45,
-            height: "303px",
-          },
-          {
-            src: "https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png",
-            bottom: 0,
-            left: 0,
-            width: "331px",
-          },
-        ]}
-        {...defaultProps}
+        route={{
+          path: "/",
+          routes: [
+            {
+              path: "/welcome",
+              name: "欢迎",
+              icon: <SmileFilled />,
+            },
+            {
+              path: "/dashboard",
+              name: "Dashboard",
+              icon: <SmileFilled />,
+            },
+            {
+              path: "/admin",
+              name: "管理页",
+              icon: <CrownFilled />,
+              access: "canAdmin",
+              routes: [
+                {
+                  path: "/admin/sub-page1",
+                  name: "一级页面",
+                  icon: "https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg",
+                },
+                {
+                  path: "/admin/sub-page2",
+                  name: "二级页面",
+                  icon: <CrownFilled />,
+                },
+                {
+                  path: "/admin/sub-page3",
+                  name: "三级页面",
+                  icon: <CrownFilled />,
+                },
+              ],
+            },
+            {
+              name: "列表页",
+              icon: <TabletFilled />,
+              path: "/list",
+              routes: [
+                {
+                  path: "/list/sub-page",
+                  name: "列表页面",
+                  icon: <CrownFilled />,
+                  routes: [
+                    {
+                      path: "/list/sub-page/sub-sub-page1",
+                      name: "一一级列表页面",
+                      icon: <CrownFilled />,
+                    },
+                    {
+                      path: "/list/sub-page/sub-sub-page2",
+                      name: "一二级列表页面",
+                      icon: <CrownFilled />,
+                    },
+                    {
+                      path: "/list/sub-page/sub-sub-page3",
+                      name: "一三级列表页面",
+                      icon: <CrownFilled />,
+                    },
+                  ],
+                },
+                {
+                  path: "/list/sub-page2",
+                  name: "二级列表页面",
+                  icon: <CrownFilled />,
+                },
+                {
+                  path: "/list/sub-page3",
+                  name: "三级列表页面",
+                  icon: <CrownFilled />,
+                },
+              ],
+            },
+            {
+              path: "/form",
+              name: "表单页",
+              icon: <CrownFilled />,
+            },
+            {
+              path: "https://ant.design",
+              name: "Ant Design 官网外链",
+              icon: <ChromeFilled />,
+            },
+          ],
+        }}
         location={{
-          pathname,
+          pathname: location.pathname,
         }}
         avatarProps={{
           src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
@@ -56,24 +126,37 @@ const BasicLayout = () => {
             <GithubFilled key="GithubFilled" />,
           ];
         }}
-        menuItemRender={(item, dom) => (
-          <div
-            onClick={() => {
-              setPathname(item.path || "/welcome");
-            }}
-          >
-            {dom}
-          </div>
-        )}
+        menuItemRender={(item, dom) => {
+          if (item.path && item.path.startsWith("http")) {
+            // 外部链接直接打开
+            return (
+              <a href={item.path} target="_blank" rel="noopener noreferrer">
+                {dom}
+              </a>
+            );
+          }
+
+          return (
+            <div
+              onClick={() => {
+                if (item.path) {
+                  navigate(item.path);
+                }
+              }}
+            >
+              {dom}
+            </div>
+          );
+        }}
       >
         <PageContainer>
           <ProCard
             style={{
-              height: "100vh",
               minHeight: 800,
             }}
           >
-            <div />
+            {/* 使用 Outlet 渲染子路由 */}
+            <Outlet />
           </ProCard>
         </PageContainer>
       </ProLayout>
