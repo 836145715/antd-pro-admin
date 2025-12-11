@@ -7,15 +7,15 @@ import {
 import type { MenuDataItem } from "@ant-design/pro-components";
 import type { RouteObject } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
-import BasicLayout from "../layout/BasicLayout";
-import Welcome from "../pages/Welcome";
-import Admin from "../pages/Admin";
-import AdminSubPage1 from "../pages/Admin/SubPage1";
-import ListTableList from "../pages/ListTableList";
-import ListSubSubPage1 from "../pages/List/SubPage/SubSubPage1";
-import Dashboard from "../pages/Dashboard";
-import NotFound from "../pages/404";
-import Form from "../pages/Form";
+import BasicLayout from "@/layout/BasicLayout";
+import Welcome from "@/pages/Welcome";
+import Admin from "@/pages/Admin";
+import AdminSubPage1 from "@/pages/Admin/SubPage1";
+import ListTableList from "@/pages/ListTableList";
+import ListSubSubPage1 from "@/pages/List/SubPage/SubSubPage1";
+import Dashboard from "@/pages/Dashboard";
+import NotFound from "@/pages/404";
+import Form from "@/pages/Form";
 
 export type MenuConfig = MenuDataItem & RouteObject;
 

@@ -1,5 +1,15 @@
-import { Form, Input, Button, Select, DatePicker, Card, Typography, Space, message } from 'antd';
-import { SaveOutlined, ReloadOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Input,
+  Button,
+  Select,
+  DatePicker,
+  Card,
+  Typography,
+  Space,
+  message,
+} from "antd";
+import { SaveOutlined, ReloadOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -9,8 +19,8 @@ const FormPage = () => {
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
-    message.success('提交成功！');
+    console.log("Received values of form: ", values);
+    message.success("提交成功！");
   };
 
   const onReset = () => {
@@ -18,7 +28,7 @@ const FormPage = () => {
   };
 
   return (
-    <div style={{ padding: '24px' }}>
+    <div style={{ padding: "24px" }}>
       <Title level={2}>表单页面</Title>
 
       <Card title="用户信息表单">
@@ -31,7 +41,7 @@ const FormPage = () => {
           <Form.Item
             label="姓名"
             name="name"
-            rules={[{ required: true, message: '请输入姓名！' }]}
+            rules={[{ required: true, message: "请输入姓名！" }]}
           >
             <Input placeholder="请输入姓名" />
           </Form.Item>
@@ -40,8 +50,8 @@ const FormPage = () => {
             label="邮箱"
             name="email"
             rules={[
-              { required: true, message: '请输入邮箱！' },
-              { type: 'email', message: '请输入有效的邮箱地址！' }
+              { required: true, message: "请输入邮箱！" },
+              { type: "email", message: "请输入有效的邮箱地址！" },
             ]}
           >
             <Input placeholder="请输入邮箱" />
@@ -50,7 +60,7 @@ const FormPage = () => {
           <Form.Item
             label="性别"
             name="gender"
-            rules={[{ required: true, message: '请选择性别！' }]}
+            rules={[{ required: true, message: "请选择性别！" }]}
           >
             <Select placeholder="请选择性别">
               <Option value="male">男</Option>
@@ -62,15 +72,12 @@ const FormPage = () => {
           <Form.Item
             label="出生日期"
             name="birthday"
-            rules={[{ required: true, message: '请选择出生日期！' }]}
+            rules={[{ required: true, message: "请选择出生日期！" }]}
           >
-            <DatePicker style={{ width: '100%' }} />
+            <DatePicker style={{ width: "100%" }} />
           </Form.Item>
 
-          <Form.Item
-            label="地址"
-            name="address"
-          >
+          <Form.Item label="地址" name="address">
             <TextArea rows={4} placeholder="请输入地址" />
           </Form.Item>
 
@@ -79,7 +86,11 @@ const FormPage = () => {
               <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
                 保存
               </Button>
-              <Button htmlType="button" onClick={onReset} icon={<ReloadOutlined />}>
+              <Button
+                htmlType="button"
+                onClick={onReset}
+                icon={<ReloadOutlined />}
+              >
                 重置
               </Button>
             </Space>

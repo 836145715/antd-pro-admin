@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { menuRoutes } from "../routes/index";
+import { menuRoutes } from "@/routes";
 
 const BasicLayout = () => {
   const navigate = useNavigate();
