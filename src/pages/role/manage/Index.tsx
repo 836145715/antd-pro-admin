@@ -1,6 +1,9 @@
-
-
-import { deleteRole, getRoleList } from "@/api/roleController";
+import {
+  deleteRole,
+  getRoleList,
+  addRole,
+  updateRole,
+} from "@/api/roleController";
 import {
   ProTable,
   type ProColumns,
@@ -8,8 +11,8 @@ import {
 } from "@ant-design/pro-components";
 import { Button, message, Popconfirm } from "antd";
 import { useRef, useState } from "react";
-import CreateModal from "./components/CreateModal";
-import EditModal from "./components/EditModal";
+import CreateFormModal from "@/components/CreateFormModal";
+import EditFormModal from "@/components/EditFormModal";
 import AuthorizeModal from "./components/AuthorizeModal";
 
 const RoleManage = () => {
@@ -53,6 +56,7 @@ const RoleManage = () => {
       dataIndex: "roleId",
       width: 80,
       search: false,
+      hideInForm: true,
     },
     {
       title: "角色名称",
@@ -73,6 +77,7 @@ const RoleManage = () => {
       width: 160,
       valueType: "dateTime",
       search: false,
+      hideInForm: true,
     },
     {
       title: "更新时间",
@@ -80,6 +85,7 @@ const RoleManage = () => {
       width: 160,
       valueType: "dateTime",
       search: false,
+      hideInForm: true,
     },
     {
       title: "操作",
@@ -132,7 +138,7 @@ const RoleManage = () => {
 
               // 前端搜索过滤
               if (params.roleName) {
-                data = data.filter(item =>
+                data = data.filter((item) =>
                   item.roleName?.includes(params.roleName as string)
                 );
               }
@@ -184,24 +190,36 @@ const RoleManage = () => {
       />
 
       {/* 创建角色弹窗 */}
-      <CreateModal
+      <CreateFormModal<API.Role>
         visible={createModalVisible}
         onCancel={() => setCreateModalVisible(false)}
         onSubmit={() => {
           setCreateModalVisible(false);
           refreshList();
         }}
+        columns={columns}
+        title="创建角色"
+        createApi={addRole}
+        successMessage="提交成功"
+        loadingMessage="提交中..."
+        errorMessage="创建失败"
       />
 
       {/* 编辑角色弹窗 */}
-      <EditModal
+      <EditFormModal<API.Role>
         visible={editModalVisible}
         onCancel={() => setEditModalVisible(false)}
         onSubmit={() => {
           setEditModalVisible(false);
           refreshList();
         }}
+        columns={columns}
         initialValues={currentRole}
+        title="更新角色"
+        updateApi={updateRole}
+        successMessage="更新成功"
+        loadingMessage="更新中..."
+        errorMessage="更新失败"
       />
 
       {/* 分配权限弹窗 */}

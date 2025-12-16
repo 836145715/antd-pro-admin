@@ -1,12 +1,18 @@
-import { deleteUser, pageUser, resetPwd } from "@/api/userController";
+import {
+  deleteUser,
+  pageUser,
+  resetPwd,
+  saveUser,
+  updateUser,
+} from "@/api/userController";
 import { PlusOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
 import { Button, message, Popconfirm, Space, Typography } from "antd";
 import Title from "antd/es/typography/Title";
 import { useRef, useState } from "react";
-import CreateModal from "./components/CreateModal";
-import EditModal from "./components/EditModal";
+import CreateFormModal from "@/components/CreateFormModal";
+import EditFormModal from "@/components/EditFormModal";
 
 /**
  * 用户管理页面
@@ -22,7 +28,7 @@ export default function UserManager() {
     actionRef.current?.reload();
   };
 
-  const onEditSubmit = () => {
+  const onEditSubmit = (values: API.User) => {
     setEditModalOpen(false);
     actionRef.current?.reload();
   };
@@ -187,13 +193,6 @@ export default function UserManager() {
       hideInSearch: true,
     },
     {
-      title: "部门ID",
-      dataIndex: "departmentId",
-      valueType: "digit",
-      width: 100,
-      hideInSearch: true,
-    },
-    {
       title: "创建时间",
       dataIndex: "createTime",
       valueType: "dateTime",
@@ -322,19 +321,29 @@ export default function UserManager() {
           </Button>,
         ]}
       />
-      <CreateModal
+      <CreateFormModal<API.User>
         visible={createModalOpen}
         onCancel={() => setCreateModalOpen(false)}
         onSubmit={onCreateSubmit}
         columns={columns}
+        title="创建用户"
+        createApi={saveUser}
+        successMessage="提交成功"
+        loadingMessage="提交中..."
+        errorMessage="创建失败"
       />
 
-      <EditModal
+      <EditFormModal<API.User>
         visible={editModalOpen}
         onCancel={() => setEditModalOpen(false)}
         onSubmit={onEditSubmit}
         columns={columns}
         initialValues={currentRow}
+        title="更新用户"
+        updateApi={updateUser}
+        successMessage="更新成功"
+        loadingMessage="更新中..."
+        errorMessage="更新失败"
       />
     </>
   );

@@ -8,7 +8,8 @@
       "Bash(node generate-routes:*)",
       "Bash(powershell:*)",
       "Bash(mkdir:*)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(del \"d:\\react-projects\\zmwl-admin-new\\src\\pages\\user\\manage\\components\\CreateModal.tsx\" \"d:\\react-projects\\zmwl-admin-new\\src\\pages\\user\\manage\\components\\EditModal.tsx\")"
     ]
   }
 }

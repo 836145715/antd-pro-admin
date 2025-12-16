@@ -1,4 +1,4 @@
-import { deleteMenu, getTree } from "@/api/menuController";
+import { deleteMenu, getTree, updateMenu } from "@/api/menuController";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -7,7 +7,7 @@ import {
 import { Button, message, Popconfirm, Space, Typography, Tree } from "antd";
 import { useState, useEffect } from "react";
 import type { DataNode } from "antd/es/tree";
-import EditModal from "./components/EditModal";
+import EditFormModal from "@/components/EditFormModal";
 import type { ProColumns } from "@ant-design/pro-components";
 
 /**
@@ -128,7 +128,7 @@ export default function MenuTree() {
       });
   };
 
-  const treeColumns: ProColumns<API.Menu>[] = [
+  const editColumns: ProColumns<API.Menu>[] = [
     {
       title: "路由名称",
       dataIndex: "name",
@@ -185,12 +185,17 @@ export default function MenuTree() {
         expandedKeys={getAllKeys(treeData)}
       />
 
-      <EditModal
+      <EditFormModal<API.Menu>
         visible={editModalOpen}
         onCancel={() => setEditModalOpen(false)}
         onSubmit={onEditSubmit}
-        columns={treeColumns as any}
+        columns={editColumns}
         initialValues={currentRow}
+        title="更新菜单"
+        updateApi={updateMenu}
+        successMessage="更新成功"
+        loadingMessage="更新中..."
+        errorMessage="更新失败"
       />
     </>
   );
