@@ -38,6 +38,10 @@ declare namespace API {
     last?: boolean;
   };
 
+  type resetPwdParams = {
+    id: string;
+  };
+
   type RListMenu = {
     code?: number;
     message?: string;
@@ -102,6 +106,12 @@ declare namespace API {
   };
 
   type UserQueryDto = {
+    /** Id */
+    id?: number;
+    /** 用户名 */
+    username?: string;
+    /** 手机号 */
+    phone?: string;
     /** 页码 */
     pageNum?: number;
     /** 每页数量 */

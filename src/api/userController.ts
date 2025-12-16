@@ -55,6 +55,21 @@ export async function pageUser(
   });
 }
 
+/** 重置用户密码 GET /user/manage/resetPwd */
+export async function resetPwd(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.resetPwdParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/resetPwd", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** 新增用户 POST /user/manage/save */
 export async function saveUser(
   body: API.User,
