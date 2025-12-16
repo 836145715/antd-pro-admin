@@ -1,19 +1,9 @@
 import { Button, Card, Typography } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
-import { test } from "@/api/validateController";
 
 const { Title, Paragraph } = Typography;
 
 const Welcome = () => {
-  const testAPI = () => {
-    test({
-      name: "test",
-      age: 18,
-    }).then((res) => {
-      console.log(res);
-    });
-  };
-
   return (
     <div style={{ padding: "24px" }}>
       <Title level={2}>
@@ -25,7 +15,7 @@ const Welcome = () => {
         </Paragraph>
         <Paragraph>您可以通过左侧菜单导航到不同的页面。</Paragraph>
       </Card>
-      <Button onClick={testAPI}>测试API</Button>
+      <Button onClick={() => console.log("测试API")}>测试API</Button>
     </div>
   );
 };

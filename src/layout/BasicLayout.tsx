@@ -5,11 +5,23 @@ import {
 } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { menuRoutes } from "@/routes";
+// import { menuRoutes } from "@/routes";
+import { buildMenuTree, type MenuConfig } from "@/routes/remote";
+import { useEffect, useState } from "react";
 
 const BasicLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [menuTree, setMenuTree] = useState<MenuConfig | undefined>(undefined);
+  useEffect(() => {
+    buildMenuTree().then((res) => {
+      setMenuTree({
+        path: "/",
+        children: res,
+      });
+      console.log("menuTree", res);
+    });
+  }, []);
 
   return (
     <div
@@ -19,8 +31,9 @@ const BasicLayout = () => {
       }}
     >
       <ProLayout
+        title={"后台管理系统"}
         siderWidth={216}
-        route={menuRoutes}
+        route={menuTree}
         location={{
           pathname: location.pathname,
         }}

@@ -1,72 +1,61 @@
 declare namespace API {
-  type getParams = {
-    key: string;
+  type deleteUserParams = {
+    id: string;
   };
 
-  type MemberInfo = {
-    id?: number;
+  type getUserParams = {
+    id: string;
+  };
+
+  type Menu = {
+    id?: string;
+    /** 路由名称 */
     name?: string;
-    mobile?: string;
-    balance?: number;
-    insertTime?: string;
-    status?: number;
-    loginFlag?: number;
-    aliOpenId?: string;
-    tripCount?: number;
-    totalFee?: number;
-    sessionkey?: string;
-    isMaintain?: number;
-    distributorId?: number;
-    distributorName?: string;
-    lastWantLock?: string;
-    authorizationCode?: string;
-    wxOpenId?: string;
-    gzhOpenId?: string;
-    unionId?: string;
-    isSubscribe?: number;
+    /** 路径 */
+    path?: string;
+    /** 路由权限 */
+    per?: string;
+    /** 排序 */
+    orderNum?: number;
+    /** 图标 */
+    icon?: string;
+    /** 父路由ID */
+    parentid?: string;
+    /** 路由类型 0:目录 1:菜单 2:按钮 */
+    type?: number;
+    /** 子路由，数据库不存在 */
+    children?: Menu[];
   };
 
-  type PageInfoMemberInfo = {
-    list?: MemberInfo[];
+  type PageInfoUser = {
+    list?: User[];
     total?: string;
     current?: string;
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
-  type pageMemberParams = {
-    pageNum?: number;
-    pageSize?: number;
-  };
-
-  type RBoolean = {
+  type RListMenu = {
     code?: number;
     message?: string;
-    data?: boolean;
+    data?: Menu[];
     timestamp?: string;
   };
 
-  type RListMemberInfo = {
+  type RPageInfoUser = {
     code?: number;
     message?: string;
-    data?: MemberInfo[];
+    data?: PageInfoUser;
     timestamp?: string;
   };
 
-  type RObject = {
+  type RUser = {
     code?: number;
     message?: string;
-    data?: Record<string, any>;
-    timestamp?: string;
-  };
-
-  type RPageInfoMemberInfo = {
-    code?: number;
-    message?: string;
-    data?: PageInfoMemberInfo;
+    data?: User;
     timestamp?: string;
   };
 
@@ -77,18 +66,45 @@ declare namespace API {
     timestamp?: string;
   };
 
-  type setParams = {
-    key: string;
-    value: string;
+  type User = {
+    /** 用户id */
+    userId?: number;
+    /** 账号 */
+    username?: string;
+    /** 密码 */
+    password?: string;
+    /** 昵称 */
+    nickName?: string;
+    /** 头像 */
+    avatar?: string;
+    /** 性别 */
+    sex?: string;
+    /** 手机号 */
+    phone?: string;
+    /** 邮箱 */
+    email?: string;
+    /** 邮箱是否验证,0未验证,1已验证 */
+    emailVerified?: number;
+    /** 真实姓名 */
+    trueName?: string;
+    /** 身份证号 */
+    idCard?: string;
+    /** 出生日期 */
+    birthday?: string;
+    /** 部门id */
+    departmentId?: number;
+    /** 状态，0正常，1冻结 */
+    state?: number;
+    /** 注册时间 */
+    createTime?: string;
+    /** 修改时间 */
+    updateTime?: string;
   };
 
-  type test2Params = {
-    name: string;
-    age: number;
-  };
-
-  type TestReqDto = {
-    name: string;
-    age?: number;
+  type UserQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
   };
 }

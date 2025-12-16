@@ -2,11 +2,17 @@
 /* eslint-disable */
 // API 更新时间：
 // API 唯一标识：
-import * as validateController from "./validateController";
-import * as redisController from "./redisController";
-import * as memberController from "./memberController";
+import * as userController from "./userController";
+import * as testController from "./testController";
+import * as menuController from "./menuController";
+import * as mapController from "./mapController";
+import * as lockDeviceController from "./lockDeviceController";
+import * as logController from "./logController";
 export default {
-  validateController,
-  redisController,
-  memberController,
+  userController,
+  testController,
+  menuController,
+  mapController,
+  lockDeviceController,
+  logController,
 };

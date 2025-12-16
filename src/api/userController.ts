@@ -1,0 +1,86 @@
+// @ts-ignore
+/* eslint-disable */
+import request from "@/utils/request";
+
+/** 根据ID删除用户 GET /user/manage/del */
+export async function deleteUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.deleteUserParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/del", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 根据ID查询用户 GET /user/manage/find */
+export async function getUser(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getUserParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.RUser>("/user/manage/find", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 查询用户菜单 GET /user/manage/menu */
+export async function getMenu(options?: { [key: string]: any }) {
+  return request<API.RListMenu>("/user/manage/menu", {
+    method: "GET",
+    ...(options || {}),
+  });
+}
+
+/** 分页查询用户 POST /user/manage/page */
+export async function pageUser(
+  body: API.UserQueryDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.RPageInfoUser>("/user/manage/page", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 新增用户 POST /user/manage/save */
+export async function saveUser(
+  body: API.User,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/save", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 更新用户 POST /user/manage/update */
+export async function updateUser(
+  body: API.User,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/update", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
