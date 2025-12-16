@@ -3,6 +3,7 @@ import { getTree } from "@/api/menuController";
 import { Tree, message, Modal } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
 import { useEffect, useState } from "react";
+import { getAllKeys } from "@/utils/menuUtil";
 
 interface Props {
   visible: boolean;
@@ -17,18 +18,6 @@ const AuthorizeModal = (props: Props) => {
   const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
   const [loading, setLoading] = useState(false);
   const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
-
-  function getAllKeys(nodes: DataNode[] = []) {
-    const keys: React.Key[] = [];
-    const loop = (list: DataNode[]) => {
-      list.forEach((item) => {
-        keys.push(item.key);
-        if (item.children) loop(item.children);
-      });
-    };
-    loop(nodes);
-    return keys;
-  }
 
   // 获取菜单树
   const fetchMenuTree = async () => {

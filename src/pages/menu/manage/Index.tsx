@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import type { DataNode } from "antd/es/tree";
 import EditFormModal from "@/components/EditFormModal";
 import type { ProColumns } from "@ant-design/pro-components";
+import { getAllKeys } from "@/utils/menuUtil";
 
 /**
  * 菜单树形结构页面
@@ -18,18 +19,7 @@ export default function MenuTree() {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState<API.Menu>();
   const [selectedKeys, setSelectedKeys] = useState<React.Key[]>([]);
-
-  function getAllKeys(nodes: DataNode[] = []) {
-    const keys: React.Key[] = [];
-    const loop = (list: DataNode[]) => {
-      list.forEach((item) => {
-        keys.push(item.key);
-        if (item.children) loop(item.children);
-      });
-    };
-    loop(nodes);
-    return keys;
-  }
+  const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
 
   const loadTreeData = async () => {
     try {
@@ -97,7 +87,9 @@ export default function MenuTree() {
           })) as DataNode[];
         };
 
-        setTreeData(formatData(res.data));
+        const treeData = formatData(res.data);
+        setTreeData(treeData);
+        setExpandedKeys(getAllKeys(treeData));
       }
     } catch (error: any) {
       message.error("加载菜单树失败: " + error.message);
@@ -168,6 +160,10 @@ export default function MenuTree() {
     },
   ];
 
+  const onExpand = (expandedKeysValue: React.Key[]) => {
+    setExpandedKeys(expandedKeysValue);
+  };
+
   return (
     <>
       <Button className="mb-2" type="primary" onClick={loadTreeData}>
@@ -175,14 +171,14 @@ export default function MenuTree() {
         刷新
       </Button>
       <Tree
-        defaultExpandAll={true}
         showLine
         treeData={treeData}
         onSelect={(keys) => {
           setSelectedKeys(keys);
         }}
         selectedKeys={selectedKeys}
-        expandedKeys={getAllKeys(treeData)}
+        expandedKeys={expandedKeys}
+        onExpand={onExpand}
       />
 
       <EditFormModal<API.Menu>
