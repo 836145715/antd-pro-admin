@@ -26,7 +26,8 @@ export default ${name};
 // 主函数
 async function main() {
   console.log('开始处理菜单数据...\n');
-  const overwrite = true;
+  //是否替换文件
+  const overwrite = false;
 
   const res = await axios.get('http://localhost:8000/menu/manage/pages');
   const menuData = res.data.data;

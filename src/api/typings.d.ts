@@ -1,10 +1,25 @@
 declare namespace API {
+  type AuthorizeRoleReqDto = {
+    /** 角色ID */
+    roleId?: number;
+    /** 路由ID列表 */
+    menuIds?: string[];
+  };
+
   type deleteMenuParams = {
     id: string;
   };
 
+  type deleteRoleParams = {
+    id: number;
+  };
+
   type deleteUserParams = {
     id: string;
+  };
+
+  type getRoleMenusParams = {
+    roleId: number;
   };
 
   type getUserParams = {
@@ -52,6 +67,37 @@ declare namespace API {
     data?: Menu[];
     timestamp?: string;
     success?: boolean;
+  };
+
+  type RListRole = {
+    code?: number;
+    message?: string;
+    data?: Role[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RListString = {
+    code?: number;
+    message?: string;
+    data?: string[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type Role = {
+    /** 角色id */
+    roleId?: number;
+    /** 角色名称 */
+    roleName?: string;
+    /** 备注 */
+    comments?: string;
+    /** 是否删除，0否，1是 */
+    isDelete?: number;
+    /** 创建时间 */
+    createTime?: string;
+    /** 修改时间 */
+    updateTime?: string;
   };
 
   type RPageInfoUser = {
