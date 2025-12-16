@@ -30,7 +30,7 @@ export default function UserManager() {
   const handleDelete = (id: string) => {
     deleteUser({ id })
       .then((res) => {
-        if (res.code === 200) {
+        if (res.success) {
           message.success("删除成功");
           actionRef.current?.reload();
         } else {
@@ -45,7 +45,7 @@ export default function UserManager() {
   const handleResetPassword = (id: string) => {
     resetPwd({ id })
       .then((res) => {
-        if (res.code === 200) {
+        if (res.success) {
           message.success("密码重置成功");
           actionRef.current?.reload();
         } else {
@@ -260,6 +260,7 @@ export default function UserManager() {
         actionRef={actionRef}
         cardBordered
         request={async (params) => {
+          console.log(params);
           const res = await pageUser({
             pageNum: params.current,
             pageSize: params.pageSize,
@@ -303,7 +304,8 @@ export default function UserManager() {
           },
         }}
         pagination={{
-          pageSize: 10,
+          defaultPageSize: 10,
+          showSizeChanger: true,
           onChange: (page) => console.log(page),
         }}
         dateFormatter="string"

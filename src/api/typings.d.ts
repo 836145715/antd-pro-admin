@@ -1,4 +1,8 @@
 declare namespace API {
+  type deleteMenuParams = {
+    id: string;
+  };
+
   type deleteUserParams = {
     id: string;
   };
@@ -47,6 +51,7 @@ declare namespace API {
     message?: string;
     data?: Menu[];
     timestamp?: string;
+    success?: boolean;
   };
 
   type RPageInfoUser = {
@@ -54,6 +59,7 @@ declare namespace API {
     message?: string;
     data?: PageInfoUser;
     timestamp?: string;
+    success?: boolean;
   };
 
   type RUser = {
@@ -61,6 +67,7 @@ declare namespace API {
     message?: string;
     data?: User;
     timestamp?: string;
+    success?: boolean;
   };
 
   type RVoid = {
@@ -68,6 +75,7 @@ declare namespace API {
     message?: string;
     data?: Record<string, any>;
     timestamp?: string;
+    success?: boolean;
   };
 
   type User = {

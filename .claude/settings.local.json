@@ -6,7 +6,9 @@
       "Bash(npm run dev:*)",
       "Bash(npm run lint)",
       "Bash(node generate-routes:*)",
-      "Bash(powershell:*)"
+      "Bash(powershell:*)",
+      "Bash(mkdir:*)",
+      "Bash(touch:*)"
     ]
   }
 }
