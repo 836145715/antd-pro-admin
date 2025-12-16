@@ -54,7 +54,7 @@ const EditFormModal = <T extends Record<string, any>>({
       title={title}
       onSubmit={handleSubmit}
       initialValues={initialValues}
-      destroyOnClose={true}
+      destroyOnHidden={true}
     />
   );
 };

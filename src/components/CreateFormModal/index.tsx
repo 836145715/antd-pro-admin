@@ -49,7 +49,7 @@ const CreateFormModal = <T extends Record<string, any>>({
       columns={columns}
       title={title}
       onSubmit={handleSubmit}
-      destroyOnClose={true}
+      destroyOnHidden={true}
     />
   );
 };

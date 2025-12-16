@@ -1,4 +1,8 @@
-import { ProTable, type ProColumns, type ProFormInstance } from "@ant-design/pro-components";
+import {
+  ProTable,
+  type ProColumns,
+  type ProFormInstance,
+} from "@ant-design/pro-components";
 import { Modal } from "antd";
 import { useEffect, useRef } from "react";
 import "./index.css";
@@ -10,7 +14,7 @@ interface BaseProps<T = any> {
   title: string;
   onSubmit: (values: T) => Promise<boolean>;
   initialValues?: T;
-  destroyOnClose?: boolean;
+  destroyOnHidden?: boolean;
 }
 
 /**
@@ -23,7 +27,7 @@ const FormModal = <T extends Record<string, any>>({
   title,
   onSubmit,
   initialValues,
-  destroyOnClose = true,
+  destroyOnHidden,
 }: BaseProps<T>) => {
   const formRef = useRef<ProFormInstance>(undefined);
 
@@ -47,7 +51,7 @@ const FormModal = <T extends Record<string, any>>({
       open={visible}
       onCancel={onCancel}
       footer={null}
-      destroyOnClose={destroyOnClose}
+      destroyOnHidden={destroyOnHidden}
     >
       <ProTable
         type="form"
