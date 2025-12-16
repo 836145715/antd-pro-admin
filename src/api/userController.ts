@@ -2,6 +2,21 @@
 /* eslint-disable */
 import request from "@/utils/request";
 
+/** 分配用户角色 POST /user/manage/assignRoles */
+export async function assignRoles(
+  body: API.AssignUserRoleReqDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/assignRoles", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 根据ID删除用户 GET /user/manage/del */
 export async function deleteUser(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
@@ -24,6 +39,21 @@ export async function getUser(
   options?: { [key: string]: any }
 ) {
   return request<API.RUser>("/user/manage/find", {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
+/** 获取用户角色列表 GET /user/manage/getUserRoles */
+export async function getUserRoles(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getUserRolesParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.RListInteger>("/user/manage/getUserRoles", {
     method: "GET",
     params: {
       ...params,

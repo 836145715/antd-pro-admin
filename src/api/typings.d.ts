@@ -1,4 +1,11 @@
 declare namespace API {
+  type AssignUserRoleReqDto = {
+    /** 用户ID */
+    userId?: number;
+    /** 角色ID列表 */
+    roleIds?: number[];
+  };
+
   type AuthorizeRoleReqDto = {
     /** 角色ID */
     roleId?: number;
@@ -24,6 +31,10 @@ declare namespace API {
 
   type getUserParams = {
     id: string;
+  };
+
+  type getUserRolesParams = {
+    userId: number;
   };
 
   type Menu = {
@@ -59,6 +70,14 @@ declare namespace API {
 
   type resetPwdParams = {
     id: string;
+  };
+
+  type RListInteger = {
+    code?: number;
+    message?: string;
+    data?: number[];
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RListMenu = {
@@ -157,6 +176,8 @@ declare namespace API {
     createTime?: string;
     /** 修改时间 */
     updateTime?: string;
+    /** 角色ID组 */
+    roleIds?: number[];
   };
 
   type UserQueryDto = {

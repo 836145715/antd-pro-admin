@@ -4,15 +4,27 @@ import {
   resetPwd,
   saveUser,
   updateUser,
+  assignRoles,
+  getUserRoles,
 } from "@/api/userController";
-import { PlusOutlined } from "@ant-design/icons";
+import { getRoleList } from "@/api/roleController";
+import { PlusOutlined, TeamOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, message, Popconfirm, Space, Typography } from "antd";
+import {
+  Button,
+  message,
+  Popconfirm,
+  Space,
+  Typography,
+  Checkbox,
+  Modal,
+} from "antd";
 import Title from "antd/es/typography/Title";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import CreateFormModal from "@/components/CreateFormModal";
 import EditFormModal from "@/components/EditFormModal";
+import UserRolesDisplay from "@/components/UserRolesDisplay";
 
 /**
  * 用户管理页面
@@ -22,6 +34,25 @@ export default function UserManager() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState<API.User>();
+  const [roleAssignVisible, setRoleAssignVisible] = useState(false);
+  const [allRoles, setAllRoles] = useState<API.Role[]>([]);
+  const [userRoles, setUserRoles] = useState<number[]>([]);
+  const [selectedRoles, setSelectedRoles] = useState<number[]>([]);
+
+  // 初始化角色数据
+  useEffect(() => {
+    const fetchRoles = async () => {
+      try {
+        const res = await getRoleList();
+        if (res.success && res.data) {
+          setAllRoles(res.data);
+        }
+      } catch (error) {
+        message.error("获取角色列表失败");
+      }
+    };
+    fetchRoles();
+  }, []);
 
   const onCreateSubmit = () => {
     setCreateModalOpen(false);
@@ -61,6 +92,38 @@ export default function UserManager() {
       .catch((error) => {
         message.error("密码重置失败: " + error.message);
       });
+  };
+
+  // 打开角色授予弹窗
+  const handleAssignRoles = async (record: API.User) => {
+    try {
+      const res = await getUserRoles({ userId: record.userId! });
+      if (res.success && res.data) {
+        setUserRoles(res.data);
+        setSelectedRoles(res.data);
+      }
+      setCurrentRow(record);
+      setRoleAssignVisible(true);
+    } catch (error) {
+      message.error("获取用户角色失败");
+    }
+  };
+
+  // 提交角色分配
+  const handleRoleAssignSubmit = async () => {
+    if (!currentRow?.userId) return;
+
+    try {
+      await assignRoles({
+        userId: currentRow.userId,
+        roleIds: selectedRoles,
+      });
+      message.success("角色分配成功");
+      setRoleAssignVisible(false);
+      actionRef.current?.reload();
+    } catch (error: any) {
+      message.error("角色分配失败：" + error.message);
+    }
   };
 
   const columns: ProColumns<API.User>[] = [
@@ -149,6 +212,19 @@ export default function UserManager() {
       },
     },
     {
+      title: "角色",
+      dataIndex: "roles",
+      width: 200,
+      hideInSearch: true,
+      hideInForm: true,
+      render: (_, record) => {
+        // 使用 UserRolesDisplay 组件显示用户的角色
+        return (
+          <UserRolesDisplay roleIds={record.roleIds} allRoles={allRoles} />
+        );
+      },
+    },
+    {
       title: "头像",
       dataIndex: "avatar",
       valueType: "image",
@@ -214,9 +290,10 @@ export default function UserManager() {
       title: "操作",
       valueType: "option",
       key: "option",
-      width: 200,
+      width: 280,
+      fixed: "right",
       render: (_, record) => [
-        <Space key={record.userId}>
+        <Space key={record.userId} wrap>
           <Typography.Link
             onClick={() => {
               setCurrentRow(record);
@@ -224,6 +301,13 @@ export default function UserManager() {
             }}
           >
             修改
+          </Typography.Link>
+          <Typography.Link
+            onClick={() => {
+              handleAssignRoles(record);
+            }}
+          >
+            <TeamOutlined /> 角色授予
           </Typography.Link>
           <Popconfirm
             title="确定要重置该用户的密码吗？"
@@ -345,6 +429,37 @@ export default function UserManager() {
         loadingMessage="更新中..."
         errorMessage="更新失败"
       />
+
+      {/* 角色授予弹窗 */}
+      <Modal
+        title={`角色授予 - ${currentRow?.username || ""}`}
+        open={roleAssignVisible}
+        onCancel={() => setRoleAssignVisible(false)}
+        onOk={handleRoleAssignSubmit}
+        width={500}
+      >
+        <div style={{ maxHeight: 400, overflowY: "auto" }}>
+          <Checkbox.Group
+            value={selectedRoles}
+            onChange={(checkedValues) =>
+              setSelectedRoles(checkedValues as number[])
+            }
+          >
+            <Space direction="vertical" style={{ width: "100%" }}>
+              {allRoles.map((role) => (
+                <Checkbox key={role.roleId} value={role.roleId}>
+                  {role.roleName}
+                  {role.comments && (
+                    <span style={{ color: "#999", marginLeft: 8 }}>
+                      ({role.comments})
+                    </span>
+                  )}
+                </Checkbox>
+              ))}
+            </Space>
+          </Checkbox.Group>
+        </div>
+      </Modal>
     </>
   );
 }
