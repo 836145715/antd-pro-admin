@@ -5,16 +5,14 @@
 import * as userController from "./userController";
 import * as roleController from "./roleController";
 import * as menuController from "./menuController";
-import * as testController from "./testController";
-import * as mapController from "./mapController";
+import * as mainController from "./mainController";
 import * as lockDeviceController from "./lockDeviceController";
 import * as logController from "./logController";
 export default {
   userController,
   roleController,
   menuController,
-  testController,
-  mapController,
+  mainController,
   lockDeviceController,
   logController,
 };

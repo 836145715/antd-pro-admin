@@ -1,8 +1,9 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { buildMenuTree, type MenuConfig } from "@/routes/remote";
+import { buildMenuTree, type MenuConfig } from "@/routes";
 import { Spin } from "antd";
 import BasicLayout from "./layout/BasicLayout";
+import { noLayoutRoutes } from "@/routes/staticRoutes";
 
 function App() {
   const [router, setRouter] = useState<any>(null);
@@ -15,7 +16,9 @@ function App() {
         children: res,
       };
 
-      setRouter(createBrowserRouter([menuRoutes]));
+      const allRoutes = [menuRoutes, ...noLayoutRoutes];
+      // console.log("所有路由", JSON.stringify(allRoutes));
+      setRouter(createBrowserRouter(allRoutes));
     });
   }, []);
 

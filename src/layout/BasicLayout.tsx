@@ -1,18 +1,21 @@
 import {
   GithubFilled,
   InfoCircleFilled,
+  LogoutOutlined,
   QuestionCircleFilled,
 } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 // import { menuRoutes } from "@/routes";
-import { buildMenuTree, type MenuConfig } from "@/routes/remote";
+import { buildMenuTree, type MenuConfig } from "@/routes";
 import { useEffect, useState } from "react";
-
+import { clearUserInfo, loadUserInfo } from "@/hooks/useUserInfo";
+import { Dropdown } from "antd";
 const BasicLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [menuTree, setMenuTree] = useState<MenuConfig | undefined>(undefined);
+  const userInfo = loadUserInfo();
   useEffect(() => {
     buildMenuTree().then((res) => {
       setMenuTree({
@@ -39,16 +42,29 @@ const BasicLayout = () => {
         }}
         avatarProps={{
           src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
-          title: "七妮妮",
+          title: userInfo.nickName || userInfo.username,
           size: "small",
-        }}
-        actionsRender={(props) => {
-          if (props.isMobile) return [];
-          return [
-            <InfoCircleFilled key="InfoCircleFilled" />,
-            <QuestionCircleFilled key="QuestionCircleFilled" />,
-            <GithubFilled key="GithubFilled" />,
-          ];
+          render: (props, dom) => {
+            return (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: "logout",
+                      icon: <LogoutOutlined />,
+                      label: "退出登录",
+                      onClick: () => {
+                        clearUserInfo();
+                        navigate("/login");
+                      },
+                    },
+                  ],
+                }}
+              >
+                {dom}
+              </Dropdown>
+            );
+          },
         }}
         menuItemRender={(item, dom) => {
           if (item.path && item.path.startsWith("http")) {

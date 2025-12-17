@@ -56,7 +56,18 @@ request.interceptors.response.use(
     }
 
     // 根据后端约定的状态码处理
-    if (data.code !== undefined && data.code !== 200) {
+    
+    if(data.code == 403 || data.code == 401) {
+      // 未授权，跳转到登录页
+      message.error('未授权，请重新登录').then(() => {
+        localStorage.removeItem('zmwl-token');
+        window.location.href = '/login';
+      });
+      return Promise.reject(new Error('未授权，请重新登录'));
+    }
+    
+    
+    if (!data.success) {
       // 处理业务错误
       message.error(data.message || '请求失败');
       return Promise.reject(new Error(data.message || '请求失败'));

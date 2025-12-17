@@ -1,131 +1,91 @@
-import {
-  ChromeFilled,
-  CrownFilled,
-  SmileFilled,
-  TabletFilled,
-} from "@ant-design/icons";
+import { loadComponent } from "@/utils/componentLoader";
+import { getMenuList } from "@/api/menuController";
 import type { MenuDataItem } from "@ant-design/pro-components";
-import type { RouteObject } from "react-router-dom";
-import { createBrowserRouter } from "react-router-dom";
-import BasicLayout from "@/layout/BasicLayout";
+import { type RouteObject } from "react-router-dom";
+import { Suspense } from "react";
 import Welcome from "@/pages/Welcome";
-import Admin from "@/pages/Admin";
-import AdminSubPage1 from "@/pages/Admin/SubPage1";
-import ListTableList from "@/pages/ListTableList";
-import ListSubSubPage1 from "@/pages/List/SubPage/SubSubPage1";
-import Dashboard from "@/pages/Dashboard";
-import NotFound from "@/pages/404";
-import Form from "@/pages/Form";
 
-export type MenuConfig = MenuDataItem & RouteObject;
+export type MenuConfig = MenuDataItem &
+  RouteObject & {
+    id?: string;
+    parentid?: string;
+    children?: MenuConfig[];
+    type?: number; //0:目录 1:菜单 2:按钮
+    permission?: string; //权限
+  };
 
-const menuRoutes: MenuConfig = {
-  path: "/",
-  element: <BasicLayout />,
-  children: [
-    {
-      index: true,
-      element: <Welcome />,
-    },
-    {
-      path: "/welcome",
-      name: "欢迎",
-      icon: <SmileFilled />,
-      element: <Welcome />,
-    },
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-      icon: <SmileFilled />,
-      element: <Dashboard />,
-    },
-    {
-      path: "/admin",
-      name: "管理页",
-      icon: <CrownFilled />,
-      access: "canAdmin",
-      children: [
-        {
-          index: true,
-          element: <Admin />,
-        },
-        {
-          path: "/admin/sub-page1",
-          name: "一级页面",
-          icon: "https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg",
-          element: <AdminSubPage1 />,
-        },
-        {
-          path: "/admin/sub-page2",
-          name: "二级页面",
-          icon: <CrownFilled />,
-          element: <AdminSubPage1 />,
-        },
-        {
-          path: "/admin/sub-page3",
-          name: "三级页面",
-          icon: <CrownFilled />,
-          element: <AdminSubPage1 />,
-        },
-      ],
-    },
-    {
-      name: "列表页",
-      icon: <TabletFilled />,
-      path: "/list",
-      children: [
-        {
-          path: "/list/sub-page",
-          name: "列表页面",
-          icon: <CrownFilled />,
-          children: [
-            {
-              path: "/list/sub-page/sub-sub-page1",
-              name: "一一级列表页面",
-              icon: <CrownFilled />,
-              element: <ListTableList />,
-            },
-            {
-              path: "/list/sub-page/sub-sub-page2",
-              name: "一二级列表页面",
-              icon: <CrownFilled />,
-              element: <ListSubSubPage1 />,
-            },
-            {
-              path: "/list/sub-page/sub-sub-page3",
-              name: "一三级列表页面",
-              icon: <CrownFilled />,
-              element: <ListSubSubPage1 />,
-            },
-          ],
-        },
-        {
-          path: "/list/sub-page2",
-          name: "二级列表页面",
-          icon: <CrownFilled />,
-          element: <ListSubSubPage1 />,
-        },
-        {
-          path: "/list/sub-page3",
-          name: "三级列表页面",
-          icon: <CrownFilled />,
-          element: <ListSubSubPage1 />,
-        },
-      ],
-    },
-    {
-      path: "/form",
-      name: "表单页",
-      icon: <CrownFilled />,
-      element: <Form />,
-    },
-    {
-      path: "https://ant.design",
-      name: "Ant Design 官网外链",
-      icon: <ChromeFilled />,
-      element: <NotFound />,
-    },
-  ],
+const removeId = (item: MenuConfig[]) => {
+  item.forEach((item) => {
+    delete item.id;
+    if (item.children) {
+      removeId(item.children);
+    }
+  });
 };
-const router = createBrowserRouter([menuRoutes]);
-export { router, menuRoutes };
+
+const buildMenuTree = async () => {
+  const res = await getMenuList();
+  if (!res.data) return [];
+  const list = res.data.filter((item) => item.type !== 2);
+
+  const map = new Map<string, MenuConfig>();
+
+  // 先建 map
+  list.forEach((item) => {
+    if (!item.id) return;
+    const paths = item.path?.split("/").filter(Boolean);
+    const filePath = paths?.join("/");
+
+    const base: MenuConfig = {
+      name: item.name,
+      id: item.id,
+      parentid: item.parentid,
+      type: item.type,
+    };
+
+    if (item.type === 1 && filePath) {
+      base.path = item.path;
+      const Component = loadComponent(filePath!);
+      if (Component) {
+        base.element = (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Component />
+          </Suspense>
+        );
+      }
+      // 这里如果有 permission 字段，可以挂在 meta 上，或者自定义字段
+      base.permission = item.per;
+    }
+
+    map.set(item.id, base);
+  });
+
+  console.log("map", map);
+
+  // 组装 children
+  const roots: MenuConfig[] = [];
+  map.forEach((item) => {
+    if (item.parentid) {
+      const parent = map.get(item.parentid);
+      if (parent) {
+        parent.children = parent.children || [];
+        parent.children.push(item);
+      }
+    } else {
+      roots.push(item);
+    }
+  });
+
+  //遍历去除所有id数据 因为createBrowserRouter会报错
+  removeId(roots);
+  console.log("roots", roots);
+
+  roots.push({
+    index: true,
+    element: <Welcome />,
+  });
+
+  return [...roots];
+};
+
+export { buildMenuTree };
