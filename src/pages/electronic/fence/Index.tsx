@@ -70,11 +70,31 @@ const ElectronicFence = () => {
   };
 
   return (
-    <ProCard gutter={8} className="h-screen">
-      <ProCard colSpan={8} bordered className="h-full overflow-hidden">
+    <ProCard
+      gutter={8}
+      style={{ height: "calc(100vh - 64px)", display: "flex" }}
+      bodyStyle={{ height: "100%", display: "flex", padding: 8 }}
+    >
+      <ProCard
+        colSpan={8}
+        bordered
+        style={{ height: "100%", display: "flex", flexDirection: "column" }}
+        bodyStyle={{
+          height: "100%",
+          padding: 16,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <FenceList onShowMap={onShowMap} />
       </ProCard>
-      <ProCard colSpan={16} bordered className="h-full">
+
+      <ProCard
+        colSpan={16}
+        bordered
+        style={{ height: "100%" }}
+        bodyStyle={{ height: "100%", padding: 0 }}
+      >
         <BaseMap
           ref={mapRef}
           apiKey="OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
