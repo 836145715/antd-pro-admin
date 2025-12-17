@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 /** 新增设备 GET /device/manager/add */
-export async function add(options?: { [key: string]: any }) {
+export async function add1(options?: { [key: string]: any }) {
   return request<string>("/device/manager/add", {
     method: "GET",
     ...(options || {}),

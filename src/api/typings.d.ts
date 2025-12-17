@@ -1,4 +1,8 @@
 declare namespace API {
+  type activateParams = {
+    id: number;
+  };
+
   type AssignUserRoleReqDto = {
     /** 用户ID */
     userId?: number;
@@ -13,6 +17,16 @@ declare namespace API {
     menuIds?: string[];
   };
 
+  type checkPointInFenceParams = {
+    fenceId: number;
+    longitude: number;
+    latitude: number;
+  };
+
+  type deactivateParams = {
+    id: number;
+  };
+
   type deleteMenuParams = {
     id: string;
   };
@@ -23,6 +37,47 @@ declare namespace API {
 
   type deleteUserParams = {
     id: string;
+  };
+
+  type deleteUsingGETParams = {
+    id: number;
+  };
+
+  type ElectronicFence = {
+    id?: number;
+    /** 名称 */
+    name?: string;
+    /** 描述 */
+    description?: string;
+    /** 插入时间 */
+    insertTime?: string;
+    /** 区域，含多组数据，以分号(;)分割,经纬度以逗号(,)分割 */
+    area?: string;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 电子围栏中心点 */
+    centerPoint?: string;
+    /** 状态 0失效  1有效 */
+    status?: number;
+  };
+
+  type ElectronicFenceQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 围栏名称 */
+    name?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 状态 0失效 1有效 */
+    status?: number;
+  };
+
+  type getByIdParams = {
+    id: number;
   };
 
   type getRoleMenusParams = {
@@ -87,6 +142,17 @@ declare namespace API {
     children?: Menu[];
   };
 
+  type PageInfoElectronicFence = {
+    list?: ElectronicFence[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    last?: boolean;
+    first?: boolean;
+  };
+
   type PageInfoUser = {
     list?: User[];
     total?: string;
@@ -94,12 +160,36 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
+  };
+
+  type RBoolean = {
+    code?: number;
+    message?: string;
+    data?: boolean;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RElectronicFence = {
+    code?: number;
+    message?: string;
+    data?: ElectronicFence;
+    timestamp?: string;
+    success?: boolean;
   };
 
   type resetPwdParams = {
     id: string;
+  };
+
+  type RListElectronicFence = {
+    code?: number;
+    message?: string;
+    data?: ElectronicFence[];
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RListInteger = {
@@ -155,6 +245,14 @@ declare namespace API {
     createTime?: string;
     /** 修改时间 */
     updateTime?: string;
+  };
+
+  type RPageInfoElectronicFence = {
+    code?: number;
+    message?: string;
+    data?: PageInfoElectronicFence;
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RPageInfoUser = {
@@ -219,15 +317,15 @@ declare namespace API {
   };
 
   type UserQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
     /** Id */
     id?: number;
     /** 用户名 */
     username?: string;
     /** 手机号 */
     phone?: string;
-    /** 页码 */
-    pageNum?: number;
-    /** 每页数量 */
-    pageSize?: number;
   };
 }

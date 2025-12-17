@@ -6,6 +6,7 @@ import * as userController from "./userController";
 import * as roleController from "./roleController";
 import * as menuController from "./menuController";
 import * as mainController from "./mainController";
+import * as electronicFenceController from "./electronicFenceController";
 import * as lockDeviceController from "./lockDeviceController";
 import * as logController from "./logController";
 export default {
@@ -13,6 +14,7 @@ export default {
   roleController,
   menuController,
   mainController,
+  electronicFenceController,
   lockDeviceController,
   logController,
 };
