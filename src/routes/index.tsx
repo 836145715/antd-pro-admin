@@ -4,6 +4,7 @@ import type { MenuDataItem } from "@ant-design/pro-components";
 import { type RouteObject } from "react-router-dom";
 import { Suspense } from "react";
 import Welcome from "@/pages/Welcome";
+import { loadUserInfo } from "@/hooks/useUserInfo";
 
 export type MenuConfig = MenuDataItem &
   RouteObject & {
@@ -23,10 +24,22 @@ const removeId = (item: MenuConfig[]) => {
   });
 };
 
+//过滤没有权限的菜单
+const filterNoPerMenu = (list: API.Menu[]) => {
+  const userInfo = loadUserInfo();
+  return list.filter((item) => {
+    if (item.per) {
+      return userInfo.perms?.includes(item.per);
+    }
+    return true;
+  });
+};
+
 const buildMenuTree = async () => {
   const res = await getMenuList();
   if (!res.data) return [];
-  const list = res.data.filter((item) => item.type !== 2);
+  let list = res.data.filter((item) => item.type !== 2);
+  list = filterNoPerMenu(list);
 
   const map = new Map<string, MenuConfig>();
 

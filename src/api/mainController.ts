@@ -7,12 +7,28 @@ export async function login(
   body: API.LoginReqDto,
   options?: { [key: string]: any }
 ) {
-  return request<API.RLoginRspDto>("/main/login", {
+  return request<API.RLoginInfoDto>("/main/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 用户登录信息 POST /main/loginInfo */
+export async function loginInfo(options?: { [key: string]: any }) {
+  return request<API.RLoginInfoDto>("/main/loginInfo", {
+    method: "POST",
+    ...(options || {}),
+  });
+}
+
+/** 用户退出登录 GET /main/logout */
+export async function logout1(options?: { [key: string]: any }) {
+  return request<API.RVoid>("/main/logout", {
+    method: "GET",
     ...(options || {}),
   });
 }

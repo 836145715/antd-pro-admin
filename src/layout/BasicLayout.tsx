@@ -1,9 +1,4 @@
-import {
-  GithubFilled,
-  InfoCircleFilled,
-  LogoutOutlined,
-  QuestionCircleFilled,
-} from "@ant-design/icons";
+import { LogoutOutlined } from "@ant-design/icons";
 import { PageContainer, ProCard, ProLayout } from "@ant-design/pro-components";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 // import { menuRoutes } from "@/routes";
@@ -11,6 +6,7 @@ import { buildMenuTree, type MenuConfig } from "@/routes";
 import { useEffect, useState } from "react";
 import { clearUserInfo, loadUserInfo } from "@/hooks/useUserInfo";
 import { Dropdown } from "antd";
+import { logout1 } from "@/api/mainController";
 const BasicLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,7 +49,8 @@ const BasicLayout = () => {
                       key: "logout",
                       icon: <LogoutOutlined />,
                       label: "退出登录",
-                      onClick: () => {
+                      onClick: async () => {
+                        await logout1();
                         clearUserInfo();
                         navigate("/login");
                       },

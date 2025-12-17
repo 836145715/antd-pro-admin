@@ -37,14 +37,7 @@ declare namespace API {
     userId: number;
   };
 
-  type LoginReqDto = {
-    /** 用户名 */
-    username: string;
-    /** 密码 */
-    password: string;
-  };
-
-  type LoginRspDto = {
+  type LoginInfoDto = {
     /** 用户ID */
     userId?: number;
     /** 用户名称 */
@@ -61,6 +54,17 @@ declare namespace API {
     perms?: string[];
     /** 登录token */
     loginToken?: string;
+  };
+
+  type LoginReqDto = {
+    /** 用户名 */
+    username: string;
+    /** 密码 */
+    password: string;
+  };
+
+  type logoutParams = {
+    userId: number;
   };
 
   type Menu = {
@@ -90,8 +94,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type resetPwdParams = {
@@ -130,10 +134,10 @@ declare namespace API {
     success?: boolean;
   };
 
-  type RLoginRspDto = {
+  type RLoginInfoDto = {
     code?: number;
     message?: string;
-    data?: LoginRspDto;
+    data?: LoginInfoDto;
     timestamp?: string;
     success?: boolean;
   };

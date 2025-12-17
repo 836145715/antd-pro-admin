@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "@/api/mainController";
 import styles from "./index.module.css";
 import { saveUserInfo } from "@/hooks/useUserInfo";
+import routeEventEmitter from "@/utils/routeEvents";
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -16,13 +17,16 @@ const LoginPage: React.FC = () => {
 
         // 保存登录信息到 localStorage
         saveUserInfo(response.data);
+
+        // 触发路由重建事件
+        routeEventEmitter.emit('rebuildRoute');
+
         // 跳转到首页
         navigate("/");
       } else {
         message.error(response.message || "登录失败");
       }
     } catch (error) {
-      message.error("登录请求失败，请稍后重试");
       console.error("Login error:", error);
     }
   };

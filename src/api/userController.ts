@@ -62,6 +62,21 @@ export async function getUserRoles(
   });
 }
 
+/** 强制注销登录 POST /user/manage/logout */
+export async function logout(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.logoutParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.RVoid>("/user/manage/logout", {
+    method: "POST",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** 查询用户菜单 GET /user/manage/menu */
 export async function getMenu(options?: { [key: string]: any }) {
   return request<API.RListMenu>("/user/manage/menu", {
