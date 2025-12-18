@@ -9,6 +9,7 @@ const ElectronicFence = () => {
   const [center, setCenter] = useState({ lat: 40.0404, lng: 116.2735 });
 
   const polygonRef = useRef<any>();
+  const markerRef = useRef<any>();
 
   //中心点标记
   const [centerMarker, setCenterMarker] = useState<any>(null);
@@ -112,7 +113,9 @@ const ElectronicFence = () => {
           }}
           onMapInited={onMapInited}
         >
-          {centerMarker && <MultiMarker geometries={[centerMarker]} />}
+          {centerMarker && (
+            <MultiMarker ref={markerRef} geometries={[centerMarker]} />
+          )}
           {geometries.length > 0 && (
             <MultiPolygon ref={polygonRef} geometries={geometries} />
           )}

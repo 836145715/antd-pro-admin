@@ -104,7 +104,7 @@ const FenceList: React.FC<Props> = ({ onShowMap }) => {
             onChange: handlePageChange,
             onShowSizeChange: handlePageChange,
             showSizeChanger: true,
-            showQuickJumper: true,
+            showQuickJumper: false,
             showTotal: (total, range) =>
               `第 ${range[0]}-${range[1]} 条/总共 ${total} 条`,
             size: "small",
