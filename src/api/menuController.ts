@@ -3,9 +3,9 @@
 import request from "@/utils/request";
 
 /** 根据ID删除菜单 GET /menu/manage/del */
-export async function deleteMenu(
+export async function menuDel(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteMenuParams,
+  params: API.menuDelParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RVoid>("/menu/manage/del", {
@@ -18,7 +18,7 @@ export async function deleteMenu(
 }
 
 /** 查询所有菜单 GET /menu/manage/menuList */
-export async function getMenuList(options?: { [key: string]: any }) {
+export async function menuGetList(options?: { [key: string]: any }) {
   return request<API.RListMenu>("/menu/manage/menuList", {
     method: "GET",
     ...(options || {}),
@@ -26,7 +26,7 @@ export async function getMenuList(options?: { [key: string]: any }) {
 }
 
 /** 查询需要创建的菜单 GET /menu/manage/pages */
-export async function getPages(options?: { [key: string]: any }) {
+export async function menuGetPages(options?: { [key: string]: any }) {
   return request<API.RListMenu>("/menu/manage/pages", {
     method: "GET",
     ...(options || {}),
@@ -34,7 +34,7 @@ export async function getPages(options?: { [key: string]: any }) {
 }
 
 /** 查询菜单树 GET /menu/manage/tree */
-export async function getTree(options?: { [key: string]: any }) {
+export async function menuGetTree(options?: { [key: string]: any }) {
   return request<API.RListMenu>("/menu/manage/tree", {
     method: "GET",
     ...(options || {}),
@@ -42,7 +42,7 @@ export async function getTree(options?: { [key: string]: any }) {
 }
 
 /** 更新菜单 POST /menu/manage/update */
-export async function updateMenu(
+export async function menuUpdate(
   body: API.Menu,
   options?: { [key: string]: any }
 ) {

@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 /** 登录日志列表 GET /loginLog/list */
-export async function list1(options?: { [key: string]: any }) {
+export async function list(options?: { [key: string]: any }) {
   return request<string>("/loginLog/list", {
     method: "GET",
     ...(options || {}),
@@ -11,7 +11,7 @@ export async function list1(options?: { [key: string]: any }) {
 }
 
 /** 登录日志列表 PUT /loginLog/list */
-export async function list4(options?: { [key: string]: any }) {
+export async function list3(options?: { [key: string]: any }) {
   return request<string>("/loginLog/list", {
     method: "PUT",
     ...(options || {}),
@@ -19,7 +19,7 @@ export async function list4(options?: { [key: string]: any }) {
 }
 
 /** 登录日志列表 POST /loginLog/list */
-export async function list3(options?: { [key: string]: any }) {
+export async function list2(options?: { [key: string]: any }) {
   return request<string>("/loginLog/list", {
     method: "POST",
     ...(options || {}),
@@ -27,7 +27,7 @@ export async function list3(options?: { [key: string]: any }) {
 }
 
 /** 登录日志列表 DELETE /loginLog/list */
-export async function list6(options?: { [key: string]: any }) {
+export async function list5(options?: { [key: string]: any }) {
   return request<string>("/loginLog/list", {
     method: "DELETE",
     ...(options || {}),
@@ -35,7 +35,7 @@ export async function list6(options?: { [key: string]: any }) {
 }
 
 /** 登录日志列表 PATCH /loginLog/list */
-export async function list5(options?: { [key: string]: any }) {
+export async function list4(options?: { [key: string]: any }) {
   return request<string>("/loginLog/list", {
     method: "PATCH",
     ...(options || {}),

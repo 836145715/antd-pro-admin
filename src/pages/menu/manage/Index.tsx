@@ -1,4 +1,4 @@
-import { deleteMenu, getTree, updateMenu } from "@/api/menuController";
+import { menuDel, menuGetTree, menuUpdate } from "@/api/menuController";
 import {
   DeleteOutlined,
   EditOutlined,
@@ -23,7 +23,7 @@ export default function MenuTree() {
 
   const loadTreeData = async () => {
     try {
-      const res = await getTree();
+      const res = await menuGetTree();
       if (res.data) {
         const formatData = (menus: API.Menu[]): DataNode[] => {
           return menus.map((menu) => ({
@@ -106,7 +106,7 @@ export default function MenuTree() {
   };
 
   const handleDelete = (id: string) => {
-    deleteMenu({ id })
+    menuDel({ id })
       .then((res) => {
         if (res.success) {
           message.success("删除成功");
@@ -188,7 +188,7 @@ export default function MenuTree() {
         columns={editColumns}
         initialValues={currentRow}
         title="更新菜单"
-        updateApi={updateMenu}
+        updateApi={menuUpdate}
         successMessage="更新成功"
         loadingMessage="更新中..."
         errorMessage="更新失败"

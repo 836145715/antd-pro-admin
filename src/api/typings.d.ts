@@ -1,8 +1,4 @@
 declare namespace API {
-  type activateParams = {
-    id: number;
-  };
-
   type AssignUserRoleReqDto = {
     /** 用户ID */
     userId?: number;
@@ -17,30 +13,25 @@ declare namespace API {
     menuIds?: string[];
   };
 
-  type checkPointInFenceParams = {
-    fenceId: number;
-    longitude: number;
-    latitude: number;
-  };
-
-  type deactivateParams = {
+  type deviceDelParams = {
     id: number;
   };
 
-  type deleteMenuParams = {
-    id: string;
+  type deviceGetByImeiParams = {
+    imei: string;
   };
 
-  type deleteRoleParams = {
+  type deviceGetLocationParams = {
+    imei: string;
+  };
+
+  type deviceGetParams = {
     id: number;
   };
 
-  type deleteUserParams = {
-    id: string;
-  };
-
-  type deleteUsingGETParams = {
+  type deviceUpdateStatusParams = {
     id: number;
+    status: number;
   };
 
   type ElectronicFence = {
@@ -76,20 +67,86 @@ declare namespace API {
     status?: number;
   };
 
-  type getByIdParams = {
+  type fenceActivateParams = {
     id: number;
   };
 
-  type getRoleMenusParams = {
-    roleId: number;
+  type fenceCheckPointParams = {
+    fenceId: number;
+    longitude: number;
+    latitude: number;
   };
 
-  type getUserParams = {
-    id: string;
+  type fenceDeactivateParams = {
+    id: number;
   };
 
-  type getUserRolesParams = {
-    userId: number;
+  type fenceDelParams = {
+    id: number;
+  };
+
+  type fenceGetParams = {
+    id: number;
+  };
+
+  type LockDevice = {
+    id?: number;
+    /** imei号 */
+    imei?: string;
+    /** sim卡号 */
+    sim?: string;
+    /** 经度 */
+    longitude?: number;
+    /** 纬度 */
+    latitude?: number;
+    /** 电量 */
+    mainElectricity?: number;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 设备状态 1 开锁 2 关锁 */
+    status?: number;
+    /** 定位模式,1 基站定位 2 GPS定位 3 手机定位 */
+    positionMode?: number;
+    /** 最后开锁时间 */
+    latestUnlockTime?: string;
+    /** 最后关锁时间 */
+    latestLockTime?: string;
+    /** gsm数据更新时间 */
+    gsmUpdateTime?: string;
+    /** 最后在线时间 */
+    onlineUpdateTime?: string;
+    /** 端口 */
+    port?: string;
+    /** 运营商 */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 硬件版本 */
+    contractVersion?: string;
+    /** 车类型：1.自行车，2.电动车3.蓝牙车 */
+    bicycleType?: number;
+    lockStatus?: number;
+  };
+
+  type LockDeviceQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** IMEI号 */
+    imei?: string;
+    /** SIM卡号 */
+    sim?: string;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 设备状态 1 开锁 2 关锁 */
+    status?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 车类型 1自行车 2电动车 3蓝牙车 */
+    bicycleType?: number;
+    /** 锁状态 */
+    lockStatus?: number;
   };
 
   type LoginInfoDto = {
@@ -118,10 +175,6 @@ declare namespace API {
     password: string;
   };
 
-  type logoutParams = {
-    userId: number;
-  };
-
   type Menu = {
     id?: string;
     /** 路由名称 */
@@ -142,6 +195,10 @@ declare namespace API {
     children?: Menu[];
   };
 
+  type menuDelParams = {
+    id: string;
+  };
+
   type PageInfoElectronicFence = {
     list?: ElectronicFence[];
     total?: string;
@@ -149,8 +206,19 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoLockDevice = {
+    list?: LockDevice[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoUser = {
@@ -160,8 +228,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type RBoolean = {
@@ -180,10 +248,6 @@ declare namespace API {
     success?: boolean;
   };
 
-  type resetPwdParams = {
-    id: string;
-  };
-
   type RListElectronicFence = {
     code?: number;
     message?: string;
@@ -196,6 +260,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: number[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RListLockDevice = {
+    code?: number;
+    message?: string;
+    data?: LockDevice[];
     timestamp?: string;
     success?: boolean;
   };
@@ -224,6 +296,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RLockDevice = {
+    code?: number;
+    message?: string;
+    data?: LockDevice;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RLoginInfoDto = {
     code?: number;
     message?: string;
@@ -247,10 +327,26 @@ declare namespace API {
     updateTime?: string;
   };
 
+  type roleDelParams = {
+    id: number;
+  };
+
+  type roleGetMenusParams = {
+    roleId: number;
+  };
+
   type RPageInfoElectronicFence = {
     code?: number;
     message?: string;
     data?: PageInfoElectronicFence;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoLockDevice = {
+    code?: number;
+    message?: string;
+    data?: PageInfoLockDevice;
     timestamp?: string;
     success?: boolean;
   };
@@ -316,6 +412,22 @@ declare namespace API {
     roleIds?: number[];
   };
 
+  type userDelParams = {
+    id: string;
+  };
+
+  type userGetParams = {
+    id: string;
+  };
+
+  type userGetRolesParams = {
+    userId: number;
+  };
+
+  type userLogoutParams = {
+    userId: number;
+  };
+
   type UserQueryDto = {
     /** 页码 */
     pageNum?: number;
@@ -327,5 +439,9 @@ declare namespace API {
     username?: string;
     /** 手机号 */
     phone?: string;
+  };
+
+  type userResetPwdParams = {
+    id: string;
   };
 }

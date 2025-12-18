@@ -6,7 +6,7 @@ import { buildMenuTree, type MenuConfig } from "@/routes";
 import { useEffect, useState } from "react";
 import { clearUserInfo, loadUserInfo } from "@/hooks/useUserInfo";
 import { Dropdown } from "antd";
-import { logout1 } from "@/api/mainController";
+import { logout } from "@/api/mainController";
 const BasicLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +50,7 @@ const BasicLayout = () => {
                       icon: <LogoutOutlined />,
                       label: "退出登录",
                       onClick: async () => {
-                        await logout1();
+                        await logout();
                         clearUserInfo();
                         navigate("/login");
                       },

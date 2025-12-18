@@ -2,7 +2,7 @@ import { LoginForm, ProFormText } from "@ant-design/pro-components";
 import { message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/api/mainController";
+import { loginMain } from "@/api/mainController";
 import styles from "./index.module.css";
 import { saveUserInfo } from "@/hooks/useUserInfo";
 import routeEventEmitter from "@/utils/routeEvents";
@@ -11,7 +11,7 @@ const LoginPage: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginReqDto) => {
     try {
-      const response = await login(values);
+      const response = await loginMain(values);
       if (response.success && response.data) {
         message.success("登录成功");
 
@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
         saveUserInfo(response.data);
 
         // 触发路由重建事件
-        routeEventEmitter.emit('rebuildRoute');
+        routeEventEmitter.emit("rebuildRoute");
 
         // 跳转到首页
         navigate("/");

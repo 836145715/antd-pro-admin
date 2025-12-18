@@ -1,5 +1,5 @@
 import { loadComponent } from "@/utils/componentLoader";
-import { getMenuList } from "@/api/menuController";
+import { menuGetList } from "@/api/menuController";
 import type { MenuDataItem } from "@ant-design/pro-components";
 import { type RouteObject } from "react-router-dom";
 import { Suspense } from "react";
@@ -36,7 +36,7 @@ const filterNoPerMenu = (list: API.Menu[]) => {
 };
 
 const buildMenuTree = async () => {
-  const res = await getMenuList();
+  const res = await menuGetList();
   if (!res.data) return [];
   let list = res.data.filter((item) => item.type !== 2);
   list = filterNoPerMenu(list);

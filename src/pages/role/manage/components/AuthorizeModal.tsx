@@ -1,5 +1,5 @@
-import { authorizeRole, getRoleMenus } from "@/api/roleController";
-import { getTree } from "@/api/menuController";
+import { roleAuthorize, roleGetMenus } from "@/api/roleController";
+import { menuGetTree } from "@/api/menuController";
 import { Tree, message, Modal } from "antd";
 import type { DataNode, TreeProps } from "antd/es/tree";
 import { useEffect, useState } from "react";
@@ -22,7 +22,7 @@ const AuthorizeModal = (props: Props) => {
   // 获取菜单树
   const fetchMenuTree = async () => {
     try {
-      const response = await getTree();
+      const response = await menuGetTree();
       if (response.success && response.data) {
         const data = transformMenuData(response.data);
         setTreeData(data);
@@ -38,7 +38,7 @@ const AuthorizeModal = (props: Props) => {
     if (!roleId) return;
 
     try {
-      const response = await getRoleMenus({ roleId });
+      const response = await roleGetMenus({ roleId });
       if (response.success && response.data) {
         setCheckedKeys(response.data);
       }
@@ -70,7 +70,7 @@ const AuthorizeModal = (props: Props) => {
 
     setLoading(true);
     try {
-      await authorizeRole({
+      await roleAuthorize({
         roleId,
         menuIds: checkedKeys.map((key) => key.toString()),
       });

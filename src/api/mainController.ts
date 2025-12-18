@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 /** 用户登录 POST /main/login */
-export async function login(
+export async function loginMain(
   body: API.LoginReqDto,
   options?: { [key: string]: any }
 ) {
@@ -26,7 +26,7 @@ export async function loginInfo(options?: { [key: string]: any }) {
 }
 
 /** 用户退出登录 GET /main/logout */
-export async function logout1(options?: { [key: string]: any }) {
+export async function logout(options?: { [key: string]: any }) {
   return request<API.RVoid>("/main/logout", {
     method: "GET",
     ...(options || {}),

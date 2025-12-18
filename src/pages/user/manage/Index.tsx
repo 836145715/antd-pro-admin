@@ -1,13 +1,13 @@
 import {
-  deleteUser,
-  pageUser,
-  resetPwd,
-  saveUser,
-  updateUser,
-  assignRoles,
-  getUserRoles,
+  userDel,
+  userPage,
+  userResetPwd,
+  userSave,
+  userUpdate,
+  userAssignRoles,
+  userGetRoles,
 } from "@/api/userController";
-import { getRoleList } from "@/api/roleController";
+import { roleList } from "@/api/roleController";
 import { PlusOutlined, TeamOutlined } from "@ant-design/icons";
 import type { ActionType, ProColumns } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
@@ -43,7 +43,7 @@ export default function UserManager() {
   useEffect(() => {
     const fetchRoles = async () => {
       try {
-        const res = await getRoleList();
+        const res = await roleList();
         if (res.success && res.data) {
           setAllRoles(res.data);
         }
@@ -65,7 +65,7 @@ export default function UserManager() {
   };
 
   const handleDelete = (id: string) => {
-    deleteUser({ id })
+    userDel({ id })
       .then((res) => {
         if (res.success) {
           message.success("删除成功");
@@ -80,7 +80,7 @@ export default function UserManager() {
   };
 
   const handleResetPassword = (id: string) => {
-    resetPwd({ id })
+    userResetPwd({ id })
       .then((res) => {
         if (res.success) {
           message.success("密码重置成功");
@@ -97,7 +97,7 @@ export default function UserManager() {
   // 打开角色授予弹窗
   const handleAssignRoles = async (record: API.User) => {
     try {
-      const res = await getUserRoles({ userId: record.userId! });
+      const res = await userGetRoles({ userId: record.userId! });
       if (res.success && res.data) {
         setUserRoles(res.data);
         setSelectedRoles(res.data);
@@ -114,7 +114,7 @@ export default function UserManager() {
     if (!currentRow?.userId) return;
 
     try {
-      await assignRoles({
+      await userAssignRoles({
         userId: currentRow.userId,
         roleIds: selectedRoles,
       });
@@ -344,7 +344,7 @@ export default function UserManager() {
         cardBordered
         request={async (params) => {
           console.log(params);
-          const res = await pageUser({
+          const res = await userPage({
             pageNum: params.current,
             pageSize: params.pageSize,
             id: params.userId,
@@ -411,7 +411,7 @@ export default function UserManager() {
         onSubmit={onCreateSubmit}
         columns={columns}
         title="创建用户"
-        createApi={saveUser}
+        createApi={userSave}
         successMessage="提交成功"
         loadingMessage="提交中..."
         errorMessage="创建失败"
@@ -424,7 +424,7 @@ export default function UserManager() {
         columns={columns}
         initialValues={currentRow}
         title="更新用户"
-        updateApi={updateUser}
+        updateApi={userUpdate}
         successMessage="更新成功"
         loadingMessage="更新中..."
         errorMessage="更新失败"

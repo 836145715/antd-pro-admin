@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 /** 添加角色 POST /role/manage/add */
-export async function addRole(
+export async function roleAdd(
   body: API.Role,
   options?: { [key: string]: any }
 ) {
@@ -18,7 +18,7 @@ export async function addRole(
 }
 
 /** 角色授权 POST /role/manage/authorize */
-export async function authorizeRole(
+export async function roleAuthorize(
   body: API.AuthorizeRoleReqDto,
   options?: { [key: string]: any }
 ) {
@@ -33,9 +33,9 @@ export async function authorizeRole(
 }
 
 /** 根据ID删除角色 GET /role/manage/del */
-export async function deleteRole(
+export async function roleDel(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteRoleParams,
+  params: API.roleDelParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RVoid>("/role/manage/del", {
@@ -48,9 +48,9 @@ export async function deleteRole(
 }
 
 /** 获取角色菜单权限 GET /role/manage/getRoleMenus */
-export async function getRoleMenus(
+export async function roleGetMenus(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getRoleMenusParams,
+  params: API.roleGetMenusParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RListString>("/role/manage/getRoleMenus", {
@@ -63,7 +63,7 @@ export async function getRoleMenus(
 }
 
 /** 查询所有角色 GET /role/manage/roleList */
-export async function getRoleList(options?: { [key: string]: any }) {
+export async function roleList(options?: { [key: string]: any }) {
   return request<API.RListRole>("/role/manage/roleList", {
     method: "GET",
     ...(options || {}),
@@ -71,7 +71,7 @@ export async function getRoleList(options?: { [key: string]: any }) {
 }
 
 /** 更新角色 POST /role/manage/update */
-export async function updateRole(
+export async function roleUpdate(
   body: API.Role,
   options?: { [key: string]: any }
 ) {

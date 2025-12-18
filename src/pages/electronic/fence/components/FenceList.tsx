@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { ProList } from "@ant-design/pro-components";
 import { Button, message, Popconfirm, Space, Switch } from "antd";
 import {
-  deleteUsingGet,
-  activate,
-  deactivate,
-  pageQuery,
+  fenceDel,
+  fenceActivate,
+  fenceDeactivate,
+  fencePage,
 } from "@/api/electronicFenceController";
 import CreateModal from "./CreateModal";
 
@@ -27,7 +27,7 @@ const FenceList: React.FC<Props> = ({ onShowMap }) => {
   const fetchData = async (current = 1, pageSize = 10) => {
     setLoading(true);
     try {
-      const response = await pageQuery({
+      const response = await fencePage({
         pageNum: current,
         pageSize,
       });
@@ -53,7 +53,7 @@ const FenceList: React.FC<Props> = ({ onShowMap }) => {
 
   const handleDelete = async (id: number) => {
     try {
-      await deleteUsingGet({ id });
+      await fenceDel({ id });
       message.success("删除成功");
       fetchData(pagination.current, pagination.pageSize);
     } catch (error) {
@@ -67,10 +67,10 @@ const FenceList: React.FC<Props> = ({ onShowMap }) => {
   ) => {
     try {
       if (checked) {
-        await activate({ id: record.id! });
+        await fenceActivate({ id: record.id! });
         message.success("激活成功");
       } else {
-        await deactivate({ id: record.id! });
+        await fenceDeactivate({ id: record.id! });
         message.success("停用成功");
       }
       fetchData(pagination.current, pagination.pageSize);

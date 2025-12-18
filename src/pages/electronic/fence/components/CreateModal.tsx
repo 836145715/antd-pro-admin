@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { Modal, Form, Input, message, Button, Space, Divider } from "antd";
 import { BaseMap, MultiMarker, MultiPolygon } from "tlbs-map-react";
-import { add } from "@/api/electronicFenceController";
+import { fenceAdd } from "@/api/electronicFenceController";
 
 interface CreateModalProps {
   visible: boolean;
@@ -110,7 +110,7 @@ const CreateModal: React.FC<CreateModalProps> = ({
         markers.length;
       const centerPoint = `${centerLng},${centerLat}`;
 
-      await add({
+      await fenceAdd({
         name: values.name,
         description: values.description,
         area: areaString,

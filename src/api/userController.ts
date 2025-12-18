@@ -3,7 +3,7 @@
 import request from "@/utils/request";
 
 /** 分配用户角色 POST /user/manage/assignRoles */
-export async function assignRoles(
+export async function userAssignRoles(
   body: API.AssignUserRoleReqDto,
   options?: { [key: string]: any }
 ) {
@@ -18,9 +18,9 @@ export async function assignRoles(
 }
 
 /** 根据ID删除用户 GET /user/manage/del */
-export async function deleteUser(
+export async function userDel(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.deleteUserParams,
+  params: API.userDelParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RVoid>("/user/manage/del", {
@@ -33,9 +33,9 @@ export async function deleteUser(
 }
 
 /** 根据ID查询用户 GET /user/manage/find */
-export async function getUser(
+export async function userGet(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserParams,
+  params: API.userGetParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RUser>("/user/manage/find", {
@@ -48,9 +48,9 @@ export async function getUser(
 }
 
 /** 获取用户角色列表 GET /user/manage/getUserRoles */
-export async function getUserRoles(
+export async function userGetRoles(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.getUserRolesParams,
+  params: API.userGetRolesParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RListInteger>("/user/manage/getUserRoles", {
@@ -63,9 +63,9 @@ export async function getUserRoles(
 }
 
 /** 强制注销登录 POST /user/manage/logout */
-export async function logout(
+export async function userLogout(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.logoutParams,
+  params: API.userLogoutParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RVoid>("/user/manage/logout", {
@@ -78,7 +78,7 @@ export async function logout(
 }
 
 /** 查询用户菜单 GET /user/manage/menu */
-export async function getMenu(options?: { [key: string]: any }) {
+export async function userGetMenu(options?: { [key: string]: any }) {
   return request<API.RListMenu>("/user/manage/menu", {
     method: "GET",
     ...(options || {}),
@@ -86,7 +86,7 @@ export async function getMenu(options?: { [key: string]: any }) {
 }
 
 /** 分页查询用户 POST /user/manage/page */
-export async function pageUser(
+export async function userPage(
   body: API.UserQueryDto,
   options?: { [key: string]: any }
 ) {
@@ -101,9 +101,9 @@ export async function pageUser(
 }
 
 /** 重置用户密码 GET /user/manage/resetPwd */
-export async function resetPwd(
+export async function userResetPwd(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
-  params: API.resetPwdParams,
+  params: API.userResetPwdParams,
   options?: { [key: string]: any }
 ) {
   return request<API.RVoid>("/user/manage/resetPwd", {
@@ -116,7 +116,7 @@ export async function resetPwd(
 }
 
 /** 新增用户 POST /user/manage/save */
-export async function saveUser(
+export async function userSave(
   body: API.User,
   options?: { [key: string]: any }
 ) {
@@ -131,7 +131,7 @@ export async function saveUser(
 }
 
 /** 更新用户 POST /user/manage/update */
-export async function updateUser(
+export async function userUpdate(
   body: API.User,
   options?: { [key: string]: any }
 ) {

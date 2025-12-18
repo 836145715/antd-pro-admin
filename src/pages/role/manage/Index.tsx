@@ -1,9 +1,4 @@
-import {
-  deleteRole,
-  getRoleList,
-  addRole,
-  updateRole,
-} from "@/api/roleController";
+import { roleDel, roleList, roleAdd, roleUpdate } from "@/api/roleController";
 import {
   ProTable,
   type ProColumns,
@@ -30,7 +25,7 @@ const RoleManage = () => {
   // 处理删除
   const handleDelete = async (record: API.Role) => {
     try {
-      await deleteRole({ id: record.roleId! });
+      await roleDel({ id: record.roleId! });
       message.success("删除成功");
       refreshList();
     } catch (error: any) {
@@ -132,7 +127,7 @@ const RoleManage = () => {
         cardBordered
         request={async (params) => {
           try {
-            const response = await getRoleList();
+            const response = await roleList();
             if (response.success && response.data) {
               let data = response.data;
 
@@ -199,7 +194,7 @@ const RoleManage = () => {
         }}
         columns={columns}
         title="创建角色"
-        createApi={addRole}
+        createApi={roleAdd}
         successMessage="提交成功"
         loadingMessage="提交中..."
         errorMessage="创建失败"
@@ -216,7 +211,7 @@ const RoleManage = () => {
         columns={columns}
         initialValues={currentRole}
         title="更新角色"
-        updateApi={updateRole}
+        updateApi={roleUpdate}
         successMessage="更新成功"
         loadingMessage="更新中..."
         errorMessage="更新失败"
