@@ -23,6 +23,7 @@ import {
   Tag,
   Modal,
   Descriptions,
+  QRCode,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import { useRef, useState } from "react";
@@ -107,6 +108,7 @@ export default function DeviceManager() {
       hideInForm: true,
       fixed: "left",
       width: 80,
+      hideInSearch: true,
     },
     {
       title: "IMEI号",
@@ -140,33 +142,21 @@ export default function DeviceManager() {
               e.preventDefault();
               // 生成二维码
               Modal.info({
-                title: "二维码 - " + record.qrNumber,
+                icon: null,
                 width: 280,
                 centered: true,
                 content: (
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: '20px 0'
-                  }}>
-                    <div style={{ marginBottom: 16, textAlign: 'center' }}>
-                      <Typography.Text strong>锁编号: {record.qrNumber}</Typography.Text>
+                  <>
+                    <div className="flex flex-col items-center justify-center">
+                      <Typography.Text strong>
+                        锁编号: {record.qrNumber}
+                      </Typography.Text>
+                      <QRCode className="my-4" value={url} />
                     </div>
-                    <img
-                      src={`https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}`}
-                      alt="二维码"
-                      style={{
-                        border: '1px solid #d9d9d9',
-                        borderRadius: '8px',
-                        padding: '8px',
-                        backgroundColor: '#fff'
-                      }}
-                    />
-                  </div>
+                  </>
                 ),
                 okText: "关闭",
-                okButtonProps: { style: { width: '100%' } }
+                okButtonProps: { style: { width: "100%" } },
               });
             }}
           >
