@@ -34,6 +34,270 @@ declare namespace API {
     status: number;
   };
 
+  type Distributor = {
+    /** id */
+    id?: number;
+    /** 运营商名字 */
+    name?: string;
+    /** 地址 */
+    address?: string;
+    /** 负责人 */
+    chargePerson?: string;
+    /** 手机号 */
+    mobile?: string;
+    /** 注册时间 */
+    insertTime?: string;
+    /** 类型 */
+    type?: number;
+    /** 运营商状态 */
+    status?: number;
+    /** 审核人 */
+    approver?: string;
+    /** 审核时间 */
+    approveTime?: string;
+    /** 用户id */
+    userId?: number;
+    /** 用户名 */
+    userName?: string;
+    /** 上级经销商id */
+    parentId?: number;
+    /** 上级经销商名称 */
+    parentName?: string;
+    /** 收益比例 */
+    earningsRatio?: number;
+    /** 分红比例 */
+    dividendRatio?: number;
+    /** 登陆名 */
+    loginName?: string;
+    /** 运营商类型：1自行车，2电动车，3蓝牙车 */
+    bicycleType?: number;
+    /** 是否运营 0 否 1 是 */
+    isoperation?: number;
+    /** 是否开启免密 0 否 1 是 */
+    issecretfree?: number;
+  };
+
+  type DistributorAccount = {
+    /** id */
+    id?: number;
+    /** 支付宝账户 */
+    aliPay?: string;
+    /** 微信账户 */
+    weixinPay?: string;
+    /** 手机号 */
+    mobile?: string;
+    /** 银行卡号 */
+    bankAccount?: string;
+    /** 银行类别 */
+    bankType?: string;
+    /** 账户描述 */
+    accountDescription?: string;
+    /** 邮件 */
+    email?: string;
+    /** 收益 */
+    income?: number;
+    /** 是否可用 */
+    isValid?: number;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商 */
+    distributor?: string;
+    /** 微信商户id */
+    wxMchAppid?: string;
+    /** 微信openid */
+    openid?: string;
+    /** 真实姓名 */
+    realName?: string;
+    /** 备注 */
+    notes?: string;
+    /** 支付宝转款名称 */
+    payName?: string;
+    /** 支付宝转款账户 */
+    payAccount?: string;
+    /** 支付转转款备注 */
+    payRemark?: string;
+    name1?: string;
+    account1?: string;
+    ratio1?: number;
+    remark1?: string;
+    name2?: string;
+    account2?: string;
+    ratio2?: number;
+    remark2?: string;
+    name3?: string;
+    account3?: string;
+    ratio3?: number;
+    remark3?: string;
+    priName?: string;
+    priMid?: string;
+    priRatio?: number;
+    thidrName1?: string;
+    thidrMid1?: string;
+    thirdRatio1?: number;
+    thirdName2?: string;
+    thirdMid2?: string;
+    thirdRatio2?: number;
+  };
+
+  type distributorAccountParams = {
+    distributorId: number;
+  };
+
+  type distributorGetParams = {
+    id: number;
+  };
+
+  type DistributorQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 关键词（名称/负责人/手机号/登录名） */
+    keyword?: string;
+    /** 运营商状态 */
+    status?: number;
+    /** 类型 */
+    type?: number;
+    /** 运营商类型：1自行车，2电动车，3蓝牙车 */
+    bicycleType?: number;
+    /** 父级运营商ID */
+    parentId?: number;
+    /** 是否运营 0否 1是 */
+    isoperation?: number;
+  };
+
+  type DistributorSetting = {
+    /** id */
+    id?: number;
+    /** 扫码提示状态 */
+    sweepCodeStatus?: number;
+    /** 扫码提示说明 */
+    sweepCodeTip?: string;
+    /** 预充值 */
+    precharge?: number;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商 */
+    distributor?: string;
+    /** 分钟数 */
+    minute?: number;
+    /** 每分钟金额 */
+    minuteFee?: number;
+    /** 超出的分钟段 */
+    overMinute?: number;
+    /** 超出指定分钟金额 */
+    overminuteFee?: number;
+    /** 最后每增加 */
+    lastMinute?: number;
+    /** 最后每增加费用 */
+    lastMinuteFee?: number;
+    /** 允许调度 */
+    allowDispatch?: number;
+    /** 调度费 */
+    dispatchingFee?: number;
+    /** 是否开启通知 0关闭 1开启 */
+    isannounce?: number;
+    /** 通知标题 */
+    announceTitle?: string;
+    /** 通知内容 */
+    announceContent?: string;
+    /** 手机号 */
+    mobile?: string;
+  };
+
+  type distributorSettingParams = {
+    distributorId: number;
+  };
+
+  type DistributorStatusReqDto = {
+    /** 运营商ID */
+    id?: number;
+    /** 目标状态 */
+    status?: number;
+    /** 审批人 */
+    approver?: string;
+  };
+
+  type DistributorWithdrawal = {
+    /** id */
+    id?: number;
+    /** 账户id */
+    accountId?: number;
+    /** 申请提现时间 */
+    applyTime?: string;
+    /** 提现金额 */
+    applyNum?: number;
+    /** 账户类型 1平台 2二级运营商 3三级运营商 */
+    accountType?: number;
+    /** 账号 */
+    account?: string;
+    /**  手机号 */
+    mobile?: string;
+    /** 0为申请，1为同意，2为不同意,3为到账成功，4为到账失败 */
+    status?: number;
+    /** 审批时间 */
+    approveTime?: string;
+    /** 订单号 */
+    flowNumber?: string;
+    /** 确认时间，为支付系统确认支付的时间 */
+    confirmTime?: string;
+    /** 账户实名 */
+    payeeRealName?: string;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商 */
+    distributor?: string;
+    /** 上级运营商id */
+    parentId?: number;
+    /** 上级运营商 */
+    parentName?: string;
+    /** 支付类型 */
+    payType?: number;
+    /** 备注 */
+    remark?: string;
+  };
+
+  type DistributorWithdrawalAuditReqDto = {
+    /** 提现记录ID */
+    id?: number;
+    /** 审核状态 1同意 2不同意 */
+    status?: number;
+    /** 审核备注 */
+    remark?: string;
+  };
+
+  type DistributorWithdrawalConfirmReqDto = {
+    /** 提现记录ID */
+    id?: number;
+    /** 是否打款成功 */
+    success?: boolean;
+    /** 流水号 */
+    flowNumber?: string;
+    /** 备注 */
+    remark?: string;
+  };
+
+  type DistributorWithdrawalQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 上级运营商ID */
+    parentId?: number;
+    /** 账户类型 */
+    accountType?: number;
+    /** 提现状态 */
+    status?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 开始时间 */
+    startTime?: string;
+    /** 结束时间 */
+    endTime?: string;
+  };
+
   type ElectronicFence = {
     id?: number;
     /** 名称 */
@@ -199,6 +463,28 @@ declare namespace API {
     id: string;
   };
 
+  type PageInfoDistributor = {
+    list?: Distributor[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoDistributorWithdrawal = {
+    list?: DistributorWithdrawal[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
   type PageInfoElectronicFence = {
     list?: ElectronicFence[];
     total?: string;
@@ -236,6 +522,30 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: boolean;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RDistributor = {
+    code?: number;
+    message?: string;
+    data?: Distributor;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RDistributorAccount = {
+    code?: number;
+    message?: string;
+    data?: DistributorAccount;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RDistributorSetting = {
+    code?: number;
+    message?: string;
+    data?: DistributorSetting;
     timestamp?: string;
     success?: boolean;
   };
@@ -333,6 +643,22 @@ declare namespace API {
 
   type roleGetMenusParams = {
     roleId: number;
+  };
+
+  type RPageInfoDistributor = {
+    code?: number;
+    message?: string;
+    data?: PageInfoDistributor;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoDistributorWithdrawal = {
+    code?: number;
+    message?: string;
+    data?: PageInfoDistributorWithdrawal;
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RPageInfoElectronicFence = {
