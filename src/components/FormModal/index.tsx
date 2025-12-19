@@ -52,12 +52,13 @@ const FormModal = <T extends Record<string, any>>({
       onCancel={onCancel}
       footer={null}
       destroyOnHidden={destroyOnHidden}
+      width={800}
     >
       <ProTable
         type="form"
         columns={columns}
         formRef={formRef}
-        form={{ initialValues }}
+        form={{ initialValues, grid: true }}
         onSubmit={handleSubmit}
         search={{
           className: "pro-table-search",
