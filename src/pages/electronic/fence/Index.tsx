@@ -3,6 +3,7 @@ import FenceList from "./components/FenceList";
 import { BaseMap, MultiLabel, MultiMarker, MultiPolygon } from "tlbs-map-react";
 import { useEffect, useRef, useState } from "react";
 import { message } from "antd";
+import { fenceUpdate } from "@/api/electronicFenceController";
 
 const ElectronicFence = () => {
   const mapRef = useRef<any>();
@@ -68,6 +69,7 @@ const ElectronicFence = () => {
         },
       ];
       console.log("polygons", polygons);
+      debugger;
       if (polygonKey.length > 0) {
         const onePoint = polygons[0].paths[0];
         const lat = onePoint.lat;
@@ -83,11 +85,11 @@ const ElectronicFence = () => {
       // 计算中心点（简单取平均值）
       if (!record.centerPoint) {
         const centerLng =
-          polygons.reduce((sum: number, m: any) => sum + m.position.lng, 0) /
-          polygons.length;
+          polygons[0].paths.reduce((sum: number, m: any) => sum + m.lng, 0) /
+          polygons[0].paths.length;
         const centerLat =
-          polygons.reduce((sum: number, m: any) => sum + m.position.lat, 0) /
-          polygons.length;
+          polygons[0].paths.reduce((sum: number, m: any) => sum + m.lat, 0) /
+          polygons[0].paths.length;
         record.centerPoint = `${centerLng},${centerLat}`;
       }
     }
@@ -108,8 +110,14 @@ const ElectronicFence = () => {
       return;
     }
 
+    //更新中心点坐标
+    fenceUpdate({
+      id: record.id,
+      centerPoint: `${lng},${lat}`,
+    });
     setCenter({ lat, lng });
     setCenterMarker({
+      styleId: "multiMarkerStyle",
       position: {
         lat,
         lng,
@@ -200,6 +208,13 @@ const ElectronicFence = () => {
               key={markerKey}
               ref={markerRef}
               geometries={[centerMarker]}
+              styles={{
+                multiMarkerStyle: {
+                  width: 20,
+                  height: 30,
+                  anchor: { x: 10, y: 30 },
+                },
+              }}
             />
           )}
           {polygons.length > 0 && (
@@ -216,7 +231,7 @@ const ElectronicFence = () => {
             geometries={labels}
             styles={{
               multiLabelStyle: {
-                color: "#4433FF",
+                color: "#E94335",
               },
             }}
           />
