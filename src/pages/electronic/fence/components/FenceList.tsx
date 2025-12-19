@@ -11,9 +11,10 @@ import CreateModal from "./CreateModal";
 
 interface Props {
   onShowMap: (record: API.ElectronicFence) => void;
+  onClearDrawing: () => void;
 }
 
-const FenceList: React.FC<Props> = ({ onShowMap }) => {
+const FenceList: React.FC<Props> = ({ onShowMap, onClearDrawing }) => {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState<API.ElectronicFence[]>([]);
   const [createModalVisible, setCreateModalVisible] = useState(false);
@@ -89,6 +90,9 @@ const FenceList: React.FC<Props> = ({ onShowMap }) => {
       <div style={{ marginBottom: 16, flexShrink: 0 }}>
         <Button type="primary" onClick={() => setCreateModalVisible(true)}>
           新增围栏
+        </Button>
+        <Button type="primary" className="ml-2" onClick={onClearDrawing}>
+          清除地图标记
         </Button>
       </div>
 

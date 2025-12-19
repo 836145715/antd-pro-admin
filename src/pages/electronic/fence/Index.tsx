@@ -1,6 +1,6 @@
 import { ProCard } from "@ant-design/pro-components";
 import FenceList from "./components/FenceList";
-import { BaseMap, MultiMarker, MultiPolygon } from "tlbs-map-react";
+import { BaseMap, MultiLabel, MultiMarker, MultiPolygon } from "tlbs-map-react";
 import { useEffect, useRef, useState } from "react";
 import { message } from "antd";
 
@@ -10,14 +10,22 @@ const ElectronicFence = () => {
 
   const polygonRef = useRef<any>();
   const markerRef = useRef<any>();
+  const labelRef = useRef<any>();
+
+  const [markerKey, setMarkerKey] = useState("marker-");
+  const [polygonKey, setPolygonKey] = useState("polygon-");
+  const [labelKey, setLabelKey] = useState("label-");
+  const [mapKey, setMapKey] = useState("map-");
 
   //中心点标记
   const [centerMarker, setCenterMarker] = useState<any>(null);
   //多边形围栏
-  const [geometries, setGeometries] = useState<any>([]);
-
+  const [polygons, setPolygons] = useState<any>([]);
+  //标签
+  const [labels, setLabels] = useState<any>([]);
   useEffect(() => {
     if (mapRef.current) {
+      console.log("mapRef.current", mapRef.current);
       mapRef.current.setCenter(center);
     }
   }, [center]);
@@ -27,37 +35,31 @@ const ElectronicFence = () => {
   };
 
   const onShowMap = (record: API.ElectronicFence) => {
+    setMarkerKey(`marker-${record.id}`);
+    setPolygonKey(`polygon-${record.id}`);
+    setLabelKey(`label-${record.id}`);
+    // 确保旧覆盖物从地图实例上移除
+    if (markerRef.current) {
+      markerRef.current.setMap(null);
+      markerRef.current = null as any;
+    }
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+      polygonRef.current = null as any;
+    }
+
     if (polygonRef.current) {
       polygonRef.current.setGeometries([]);
     }
 
     setCenterMarker(null);
-    setGeometries([]);
+    setPolygons([]);
+    setLabels([]);
     console.log("record", record);
-
-    if (record.centerPoint) {
-      const centerPoint = record.centerPoint.split(",");
-      const lat = Number(centerPoint[1]);
-      const lng = Number(centerPoint[0]);
-
-      if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
-        message.error("中心点坐标无效");
-        return;
-      }
-
-      setCenter({ lat, lng });
-
-      setCenterMarker({
-        position: {
-          lat,
-          lng,
-        },
-      });
-    }
 
     if (record.area) {
       const areas = record.area.split(";");
-      const geometries = [
+      const polygons = [
         {
           paths: areas.map((item: string) => {
             const points = item.split(",").map(Number);
@@ -65,9 +67,88 @@ const ElectronicFence = () => {
           }),
         },
       ];
-      console.log("geometries", geometries);
-      setGeometries(geometries);
+      console.log("polygons", polygons);
+      if (polygonKey.length > 0) {
+        const onePoint = polygons[0].paths[0];
+        const lat = onePoint.lat;
+        const lng = onePoint.lng;
+        if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
+          message.error("围栏坐标无效");
+          return;
+        }
+      }
+
+      setPolygons(polygons);
+
+      // 计算中心点（简单取平均值）
+      if (!record.centerPoint) {
+        const centerLng =
+          polygons.reduce((sum: number, m: any) => sum + m.position.lng, 0) /
+          polygons.length;
+        const centerLat =
+          polygons.reduce((sum: number, m: any) => sum + m.position.lat, 0) /
+          polygons.length;
+        record.centerPoint = `${centerLng},${centerLat}`;
+      }
     }
+
+    if (!record.centerPoint) {
+      message.error("中心点坐标无效");
+      return;
+    }
+
+    const centerPoint = record.centerPoint.split(",");
+    const lat = Number(centerPoint[1]);
+    const lng = Number(centerPoint[0]);
+    console.log("lat", lat);
+    console.log("lng", lng);
+
+    if (lat > 90 || lat < -90 || lng > 180 || lng < -180) {
+      message.error("中心点坐标无效");
+      return;
+    }
+
+    setCenter({ lat, lng });
+    setCenterMarker({
+      position: {
+        lat,
+        lng,
+      },
+    });
+
+    const labels = [
+      {
+        styleId: "multiLabelStyle",
+        position: {
+          lat,
+          lng,
+        },
+        content: record.name,
+      },
+    ];
+    console.log("labels", labels);
+    setLabels(labels);
+  };
+
+  const onClearDrawing = () => {
+    // 主动从地图上移除已有覆盖物，避免库内部缓存导致的残留
+    if (markerRef.current) {
+      markerRef.current.setMap(null);
+      markerRef.current = null as any;
+    }
+    if (polygonRef.current) {
+      polygonRef.current.setMap(null);
+      polygonRef.current = null as any;
+    }
+
+    setCenterMarker(null);
+    setPolygons([]);
+    setLabels([]);
+    setMapKey(`map-${Date.now()}`);
+  };
+
+  const onScaleChange = (scale: number) => {
+    console.log("scale", scale);
   };
 
   return (
@@ -87,7 +168,7 @@ const ElectronicFence = () => {
           flexDirection: "column",
         }}
       >
-        <FenceList onShowMap={onShowMap} />
+        <FenceList onShowMap={onShowMap} onClearDrawing={onClearDrawing} />
       </ProCard>
 
       <ProCard
@@ -97,6 +178,7 @@ const ElectronicFence = () => {
         bodyStyle={{ height: "100%", padding: 0 }}
       >
         <BaseMap
+          key={mapKey}
           ref={mapRef}
           apiKey="OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"
           control={{
@@ -108,17 +190,36 @@ const ElectronicFence = () => {
           }}
           options={{
             center,
-            zoom: 17,
             showControl: true,
           }}
           onMapInited={onMapInited}
+          onScaleChange={onScaleChange}
         >
           {centerMarker && (
-            <MultiMarker ref={markerRef} geometries={[centerMarker]} />
+            <MultiMarker
+              key={markerKey}
+              ref={markerRef}
+              geometries={[centerMarker]}
+            />
           )}
-          {geometries.length > 0 && (
-            <MultiPolygon ref={polygonRef} geometries={geometries} />
+          {polygons.length > 0 && (
+            <MultiPolygon
+              key={polygonKey}
+              ref={polygonRef}
+              geometries={polygons}
+            />
           )}
+
+          <MultiLabel
+            key={labelKey}
+            ref={labelRef}
+            geometries={labels}
+            styles={{
+              multiLabelStyle: {
+                color: "#4433FF",
+              },
+            }}
+          />
         </BaseMap>
       </ProCard>
     </ProCard>

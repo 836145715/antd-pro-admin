@@ -88,7 +88,10 @@ const DistributorList: React.FC = () => {
     }
   };
 
-  const distributorColumns: ProColumns<DistributorRecord>[] = [
+  // 扩展类型以支持列上使用 colProps（用于表单栅格布局）
+  const distributorColumns: (ProColumns<DistributorRecord> & {
+    colProps?: any;
+  })[] = [
     {
       title: "ID",
       dataIndex: "id",
@@ -101,6 +104,7 @@ const DistributorList: React.FC = () => {
       title: "关键词",
       dataIndex: "keyword",
       hideInTable: true,
+      hideInForm: true,
     },
     {
       title: "运营商名称",
@@ -250,7 +254,7 @@ const DistributorList: React.FC = () => {
             账户
           </Typography.Link>
           <Typography.Link onClick={() => openSettingModal(record)}>
-            参数
+            配置
           </Typography.Link>
           {record.status === 1 ? (
             <Popconfirm
