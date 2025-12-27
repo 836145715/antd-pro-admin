@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { BaseMap, MultiMarker } from "tlbs-map-react";
 import { Card, Statistic, Row, Col, Spin, Descriptions, Tag } from "antd";
 import {
@@ -38,26 +38,30 @@ const Welcome = () => {
   const [mapInited, setMapInited] = useState(false);
 
   // 标记点击事件处理函数
-  const onMarkerClick = (evt: any) => {
+  const onMarkerClick = useCallback((evt: any) => {
     console.log("Marker clicked:", evt);
     const geometry = evt?.geometry;
     if (geometry?.deviceId) {
-      const device = devices.find((d) => d.id === geometry.deviceId);
-      console.log("点击的设备:", device);
-      if (device) {
-        setSelectedDevice(device);
-      }
+      // 直接从最新 devices 中查找
+      setDevices((latestDevices) => {
+        const device = latestDevices.find((d) => d.id === geometry.deviceId);
+        console.log("点击的设备:", device);
+        if (device) {
+          setSelectedDevice(device);
+        }
+        return latestDevices;
+      });
     }
-  };
+  }, []);
 
   // 绑定标记点击事件
-  const bindMarkerClick = () => {
+  const bindMarkerClick = useCallback(() => {
     if (markerRef.current) {
       markerRef.current.off("click", onMarkerClick);
       markerRef.current.on("click", onMarkerClick);
       console.log("绑定标记点击事件");
     }
-  };
+  }, [onMarkerClick]);
 
   // 获取所有设备
   const fetchDevices = async () => {
