@@ -608,6 +608,17 @@ declare namespace API {
     last?: boolean;
   };
 
+  type PageInfoTrip = {
+    list?: Trip[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
   type PageInfoTripCommand = {
     list?: TripCommand[];
     total?: string;
@@ -742,6 +753,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RListTrip = {
+    code?: number;
+    message?: string;
+    data?: Trip[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RListTripCommand = {
     code?: number;
     message?: string;
@@ -837,6 +856,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RPageInfoTrip = {
+    code?: number;
+    message?: string;
+    data?: PageInfoTrip;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RPageInfoTripCommand = {
     code?: number;
     message?: string;
@@ -849,6 +876,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: PageInfoUser;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RTrip = {
+    code?: number;
+    message?: string;
+    data?: Trip;
     timestamp?: string;
     success?: boolean;
   };
@@ -875,6 +910,42 @@ declare namespace API {
     data?: Record<string, any>;
     timestamp?: string;
     success?: boolean;
+  };
+
+  type Trip = {
+    id?: number;
+    /**  设备Id */
+    deviceId?: number;
+    /** 自行车编号 */
+    qrNumber?: string;
+    /** 开始时间 */
+    startTime?: string;
+    /** 结束时间 */
+    endTime?: string;
+    /** 用户Id */
+    memberId?: number;
+    /**  骑行时长 */
+    tripTimespan?: number;
+    /** 开锁地址 */
+    openAddress?: string;
+    /** 关锁地址 */
+    lockAddress?: string;
+    /**  骑行状态 1. 进行中 2. 已结束 */
+    tripStatus?: number;
+    /** 骑行费用 */
+    tripFee?: number;
+    /** 用户手机号 */
+    mobile?: string;
+    /** 是否是强制结束 */
+    isCoercion?: number;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 车类型:1.自行车2.电动车3.蓝牙车 */
+    bicycleType?: number;
+    /** 调度费 */
+    dispatchingFee?: number;
   };
 
   type TripCommand = {
@@ -943,6 +1014,51 @@ declare namespace API {
     type?: number;
     /** 车类型：1.自行车 2.电动车 3.蓝牙车 */
     bicycleType?: number;
+  };
+
+  type tripDelParams = {
+    id: number;
+  };
+
+  type tripGetParams = {
+    id: number;
+  };
+
+  type tripListByMemberIdParams = {
+    memberId: number;
+  };
+
+  type tripListByQrNumberParams = {
+    qrNumber: string;
+  };
+
+  type TripQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 设备ID */
+    deviceId?: number;
+    /** 自行车编号 */
+    qrNumber?: string;
+    /** 用户ID */
+    memberId?: number;
+    /** 骑行状态 1.进行中 2.已结束 */
+    tripStatus?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 车类型:1.自行车2.电动车3.蓝牙车 */
+    bicycleType?: number;
+    /** 开始时间起 */
+    startTimeStart?: string;
+    /** 开始时间止 */
+    startTimeEnd?: string;
+    /** 结束时间起 */
+    endTimeStart?: string;
+    /** 结束时间止 */
+    endTimeEnd?: string;
+    /** 用户手机号 */
+    mobile?: string;
   };
 
   type User = {
