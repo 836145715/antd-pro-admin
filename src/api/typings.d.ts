@@ -608,6 +608,17 @@ declare namespace API {
     last?: boolean;
   };
 
+  type PageInfoTripCommand = {
+    list?: TripCommand[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
   type PageInfoUser = {
     list?: User[];
     total?: string;
@@ -731,6 +742,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RListTripCommand = {
+    code?: number;
+    message?: string;
+    data?: TripCommand[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RLockDevice = {
     code?: number;
     message?: string;
@@ -818,10 +837,26 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RPageInfoTripCommand = {
+    code?: number;
+    message?: string;
+    data?: PageInfoTripCommand;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RPageInfoUser = {
     code?: number;
     message?: string;
     data?: PageInfoUser;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RTripCommand = {
+    code?: number;
+    message?: string;
+    data?: TripCommand;
     timestamp?: string;
     success?: boolean;
   };
@@ -840,6 +875,74 @@ declare namespace API {
     data?: Record<string, any>;
     timestamp?: string;
     success?: boolean;
+  };
+
+  type TripCommand = {
+    id?: number;
+    /** 用户id */
+    memberId?: number;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 锁imei */
+    imei?: string;
+    /** 处理时间 */
+    executeTime?: string;
+    /** 是否处理 */
+    hasExecuted?: number;
+    /** 备注 */
+    remark?: string;
+    /** 1开锁2关锁3重启4升级5ip设置6定位信息获取7找车 */
+    type?: number;
+    /** 设置ip0、IP
+1、域名
+设置语音
+1、设置开锁成功时的语音
+2、设置开锁失败时的语音
+3、设置关锁成功时的语音
+4、设置关锁失败时的语音
+5、设置震动报警时的语音 */
+    paramType?: number;
+    /** 参数 */
+    param?: string;
+    /** 端口 */
+    port?: number;
+    /** 定位时间 */
+    time?: number;
+    /** 定位激活模式 
+1 一直激活，根据设定开锁上传频率上传
+0 激活时间内 上传3次，然后自动关闭（默认模式） */
+    mode?: number;
+    /** 车类型：1.自行车2.电动车3.蓝牙车 */
+    bicycleType?: number;
+    /** 是否为管理员开锁：1.是2.不是 */
+    isMaintain?: number;
+  };
+
+  type tripCommandDelParams = {
+    id: number;
+  };
+
+  type tripCommandGetParams = {
+    id: number;
+  };
+
+  type TripCommandQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 用户id */
+    memberId?: number;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 锁imei */
+    imei?: string;
+    /** 是否处理 0未处理 1已处理 */
+    hasExecuted?: number;
+    /** 命令类型 1开锁 2关锁 3重启 4升级 5ip设置 6定位信息获取 7找车 */
+    type?: number;
+    /** 车类型：1.自行车 2.电动车 3.蓝牙车 */
+    bicycleType?: number;
   };
 
   type User = {

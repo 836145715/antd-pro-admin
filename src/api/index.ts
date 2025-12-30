@@ -3,6 +3,7 @@
 // API 更新时间：
 // API 唯一标识：
 import * as userController from "./userController";
+import * as tripCommandController from "./tripCommandController";
 import * as roleController from "./roleController";
 import * as menuController from "./menuController";
 import * as mainController from "./mainController";
@@ -13,6 +14,7 @@ import * as datadictController from "./datadictController";
 import * as datadictItemController from "./datadictItemController";
 export default {
   userController,
+  tripCommandController,
   roleController,
   menuController,
   mainController,
