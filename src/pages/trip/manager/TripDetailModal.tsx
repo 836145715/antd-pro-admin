@@ -19,7 +19,11 @@ const tripStatusMap: Record<number, { text: string; color: string }> = {
   2: { text: "已结束", color: "success" },
 };
 
-export default function TripDetailModal({ open, trip, onClose }: TripDetailModalProps) {
+export default function TripDetailModal({
+  open,
+  trip,
+  onClose,
+}: TripDetailModalProps) {
   return (
     <Modal
       title="行程详情"
@@ -74,19 +78,11 @@ export default function TripDetailModal({ open, trip, onClose }: TripDetailModal
               : "-"}
           </Descriptions.Item>
           <Descriptions.Item label="骑行费用">
-            <Typography.Text type="success">
-              ¥
-              {trip.tripFee
-                ? (trip.tripFee / 100).toFixed(2)
-                : "0.00"}
-            </Typography.Text>
+            <Typography.Text type="success">¥{trip.tripFee}</Typography.Text>
           </Descriptions.Item>
           <Descriptions.Item label="调度费">
             <Typography.Text type="warning">
-              ¥
-              {trip.dispatchingFee
-                ? (trip.dispatchingFee / 100).toFixed(2)
-                : "0.00"}
+              ¥{trip.dispatchingFee}
             </Typography.Text>
           </Descriptions.Item>
           <Descriptions.Item label="强制结束">
