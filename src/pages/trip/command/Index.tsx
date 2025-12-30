@@ -7,11 +7,11 @@ import {
 import { PlusOutlined, ReloadOutlined } from "@ant-design/icons";
 import type { ActionType } from "@ant-design/pro-components";
 import { ProTable } from "@ant-design/pro-components";
-import { Button, message, Form } from "antd";
+import { Button, message } from "antd";
 import Title from "antd/es/typography/Title";
 import { useRef, useState } from "react";
-import CreateModal from "./CreateModal";
-import EditModal from "./EditModal";
+import CreateFormModal from "@/components/CreateFormModal";
+import EditFormModal from "@/components/EditFormModal";
 import { createColumns } from "./columns";
 
 /**
@@ -22,43 +22,31 @@ export default function TripCommand() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState<API.TripCommand>();
-  const [form] = Form.useForm();
 
-  const onCreateSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      const res = await tripCommandSave(values);
-      if (res.success) {
-        message.success("创建成功");
-        setCreateModalOpen(false);
-        form.resetFields();
-        actionRef.current?.reload();
-      } else {
-        message.error("创建失败: " + res.message);
-      }
-    } catch (error: any) {
-      if (error.errorFields) return;
-      message.error("创建失败: " + error.message);
+  const onCreateSubmit = async (values: API.TripCommand) => {
+    const res = await tripCommandSave(values);
+    if (res.success) {
+      message.success("创建成功");
+      setCreateModalOpen(false);
+      actionRef.current?.reload();
+    } else {
+      message.error("创建失败: " + res.message);
+      throw new Error(res.message);
     }
   };
 
-  const onEditSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      const res = await tripCommandUpdate({
-        ...values,
-        id: currentRow?.id,
-      });
-      if (res.success) {
-        message.success("更新成功");
-        setEditModalOpen(false);
-        actionRef.current?.reload();
-      } else {
-        message.error("更新失败: " + res.message);
-      }
-    } catch (error: any) {
-      if (error.errorFields) return;
-      message.error("更新失败: " + error.message);
+  const onEditSubmit = async (values: API.TripCommand) => {
+    const res = await tripCommandUpdate({
+      ...values,
+      id: currentRow?.id,
+    });
+    if (res.success) {
+      message.success("更新成功");
+      setEditModalOpen(false);
+      actionRef.current?.reload();
+    } else {
+      message.error("更新失败: " + res.message);
+      throw new Error(res.message);
     }
   };
 
@@ -161,26 +149,29 @@ export default function TripCommand() {
       />
 
       {/* 新建弹窗 */}
-      <CreateModal
-        open={createModalOpen}
-        onCancel={() => {
-          setCreateModalOpen(false);
-          form.resetFields();
-        }}
+      <CreateFormModal<API.TripCommand>
+        visible={createModalOpen}
+        onCancel={() => setCreateModalOpen(false)}
         onSubmit={onCreateSubmit}
-        form={form}
+        columns={columns}
+        title="新增行程命令"
+        createApi={tripCommandSave}
+        successMessage="创建成功"
       />
 
       {/* 编辑弹窗 */}
-      <EditModal
-        open={editModalOpen}
+      <EditFormModal<API.TripCommand>
+        visible={editModalOpen}
         onCancel={() => {
           setEditModalOpen(false);
           setCurrentRow(undefined);
         }}
         onSubmit={onEditSubmit}
-        form={form}
+        columns={columns}
         initialValues={currentRow}
+        title="修改行程命令"
+        updateApi={tripCommandUpdate}
+        successMessage="更新成功"
       />
     </>
   );

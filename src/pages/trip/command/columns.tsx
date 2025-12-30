@@ -28,7 +28,7 @@ interface ColumnsOptions {
 export const createColumns = ({
   onEdit,
   onDelete,
-}: ColumnsOptions): ProColumns<API.TripCommand>[] => [
+}: ColumnsOptions): (ProColumns<API.TripCommand> & { colProps?: any })[] => [
   {
     title: "ID",
     dataIndex: "id",
@@ -43,6 +43,7 @@ export const createColumns = ({
     valueType: "digit",
     width: 100,
     hideInSearch: true,
+    colProps: { span: 12 },
   },
   {
     title: "锁编号",
@@ -52,6 +53,7 @@ export const createColumns = ({
     formItemProps: {
       rules: [{ required: true, message: "请输入锁编号" }],
     },
+    colProps: { span: 12 },
   },
   {
     title: "锁IMEI",
@@ -61,6 +63,7 @@ export const createColumns = ({
     formItemProps: {
       rules: [{ required: true, message: "请输入锁IMEI" }],
     },
+    colProps: { span: 12 },
   },
   {
     title: "命令类型",
@@ -74,6 +77,7 @@ export const createColumns = ({
         value: Number(key),
       })),
     },
+    colProps: { span: 12 },
     render: (_, record) => {
       const type = commandTypeMap[record.type || 0];
       if (type) {
@@ -94,6 +98,7 @@ export const createColumns = ({
         value: Number(key),
       })),
     },
+    colProps: { span: 12 },
     render: (_, record) => {
       const type = bicycleTypeMap[record.bicycleType || 0];
       if (type) {
@@ -101,28 +106,6 @@ export const createColumns = ({
       }
       return "-";
     },
-  },
-  {
-    title: "是否处理",
-    dataIndex: "hasExecuted",
-    valueType: "select",
-    width: 100,
-    valueEnum: {
-      0: { text: "未处理", status: "error" },
-      1: { text: "已处理", status: "success" },
-    },
-    render: (_, record) => (
-      <Tag color={record.hasExecuted === 1 ? "green" : "red"}>
-        {record.hasExecuted === 1 ? "已处理" : "未处理"}
-      </Tag>
-    ),
-  },
-  {
-    title: "处理时间",
-    dataIndex: "executeTime",
-    valueType: "dateTime",
-    width: 180,
-    hideInSearch: true,
   },
   {
     title: "参数类型",
@@ -139,6 +122,7 @@ export const createColumns = ({
       5: { text: "设置关锁失败语音" },
       6: { text: "设置震动报警语音" },
     },
+    colProps: { span: 12 },
   },
   {
     title: "参数",
@@ -147,6 +131,7 @@ export const createColumns = ({
     width: 150,
     hideInSearch: true,
     ellipsis: true,
+    colProps: { span: 12 },
   },
   {
     title: "端口",
@@ -154,6 +139,7 @@ export const createColumns = ({
     valueType: "digit",
     width: 100,
     hideInSearch: true,
+    colProps: { span: 12 },
   },
   {
     title: "定位时间",
@@ -161,6 +147,7 @@ export const createColumns = ({
     valueType: "digit",
     width: 100,
     hideInSearch: true,
+    colProps: { span: 12 },
   },
   {
     title: "定位模式",
@@ -172,6 +159,7 @@ export const createColumns = ({
       0: { text: "激活时间内" },
       1: { text: "一直激活" },
     },
+    colProps: { span: 12 },
     render: (_, record) => (
       <Tag color={record.mode === 1 ? "blue" : "default"}>
         {record.mode === 1 ? "一直激活" : "激活时间内"}
@@ -188,6 +176,7 @@ export const createColumns = ({
       1: { text: "是" },
       2: { text: "否" },
     },
+    colProps: { span: 12 },
     render: (_, record) => (
       <Tag color={record.isMaintain === 1 ? "green" : "default"}>
         {record.isMaintain === 1 ? "是" : "否"}
@@ -201,6 +190,7 @@ export const createColumns = ({
     width: 150,
     hideInSearch: true,
     ellipsis: true,
+    colProps: { span: 12 },
   },
   {
     title: "操作",
