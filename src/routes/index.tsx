@@ -73,7 +73,7 @@ const buildMenuTree = async () => {
     map.set(item.id, base);
   });
 
-  console.log("map", map);
+  // console.log("map", map);
 
   // 组装 children
   const roots: MenuConfig[] = [];
@@ -91,7 +91,7 @@ const buildMenuTree = async () => {
 
   //遍历去除所有id数据 因为createBrowserRouter会报错
   removeId(roots);
-  console.log("roots", roots);
+  // console.log("roots", roots);
 
   roots.push({
     index: true,

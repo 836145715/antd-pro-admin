@@ -18,7 +18,7 @@ const BasicLayout = () => {
         path: "/",
         children: res,
       });
-      console.log("menuTree", res);
+      console.log("基础布局路由", res);
     });
   }, []);
 
@@ -31,6 +31,7 @@ const BasicLayout = () => {
     >
       <ProLayout
         title={"后台管理系统"}
+        onMenuHeaderClick={() => navigate("/")}
         siderWidth={216}
         route={menuTree}
         location={{
