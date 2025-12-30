@@ -16,12 +16,11 @@ import {
   Space,
   Tag,
   Typography,
-  Modal,
-  Descriptions,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
+import TripDetailModal from "./TripDetailModal";
 
 /**
  * 行程管理页面
@@ -269,6 +268,7 @@ export default function TripManager() {
         columns={columns}
         actionRef={actionRef}
         cardBordered
+        scroll={{ x: 1200 }}
         request={async (params) => {
           const res = await tripPage({
             pageNum: params.current,
@@ -331,91 +331,14 @@ export default function TripManager() {
       />
 
       {/* 详情弹窗 */}
-      <Modal
-        title="行程详情"
+      <TripDetailModal
         open={detailModalOpen}
-        onCancel={() => {
+        trip={currentTrip}
+        onClose={() => {
           setDetailModalOpen(false);
           setCurrentTrip(undefined);
         }}
-        footer={[
-          <Button key="close" onClick={() => setDetailModalOpen(false)}>
-            关闭
-          </Button>,
-        ]}
-        width={700}
-      >
-        {currentTrip && (
-          <Descriptions column={2} bordered>
-            <Descriptions.Item label="ID">{currentTrip.id}</Descriptions.Item>
-            <Descriptions.Item label="自行车编号">
-              {currentTrip.qrNumber || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="设备ID">
-              {currentTrip.deviceId || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="用户ID">
-              {currentTrip.memberId || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="用户手机号">
-              {currentTrip.mobile || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="车类型">
-              {currentTrip.bicycleType
-                ? bicycleTypeMap[currentTrip.bicycleType]?.text || "-"
-                : "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="运营商">
-              {currentTrip.distributorName || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="骑行状态">
-              {currentTrip.tripStatus
-                ? tripStatusMap[currentTrip.tripStatus]?.text || "-"
-                : "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="开始时间">
-              {currentTrip.startTime || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="结束时间">
-              {currentTrip.endTime || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="骑行时长">
-              {currentTrip.tripTimespan
-                ? `${Math.floor((currentTrip.tripTimespan || 0) / 60)}分${
-                    (currentTrip.tripTimespan || 0) % 60
-                  }秒`
-                : "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="骑行费用">
-              <Typography.Text type="success">
-                ¥
-                {currentTrip.tripFee
-                  ? (currentTrip.tripFee / 100).toFixed(2)
-                  : "0.00"}
-              </Typography.Text>
-            </Descriptions.Item>
-            <Descriptions.Item label="调度费">
-              <Typography.Text type="warning">
-                ¥
-                {currentTrip.dispatchingFee
-                  ? (currentTrip.dispatchingFee / 100).toFixed(2)
-                  : "0.00"}
-              </Typography.Text>
-            </Descriptions.Item>
-            <Descriptions.Item label="强制结束">
-              <Tag color={currentTrip.isCoercion === 1 ? "red" : "green"}>
-                {currentTrip.isCoercion === 1 ? "是" : "否"}
-              </Tag>
-            </Descriptions.Item>
-            <Descriptions.Item label="开锁地址" span={2}>
-              {currentTrip.openAddress || "-"}
-            </Descriptions.Item>
-            <Descriptions.Item label="关锁地址" span={2}>
-              {currentTrip.lockAddress || "-"}
-            </Descriptions.Item>
-          </Descriptions>
-        )}
-      </Modal>
+      />
     </>
   );
 }
