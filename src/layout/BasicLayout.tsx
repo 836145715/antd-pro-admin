@@ -5,8 +5,8 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { buildMenuTree, type MenuConfig } from "@/routes";
 import { useEffect, useState } from "react";
 import { clearUserInfo, loadUserInfo } from "@/hooks/useUserInfo";
-import { Dropdown } from "antd";
-import { logout } from "@/api/mainController";
+import { Dropdown, message } from "antd";
+import { clearCache, logout } from "@/api/mainController";
 const BasicLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -53,6 +53,15 @@ const BasicLayout = () => {
                         await logout();
                         clearUserInfo();
                         navigate("/login");
+                      },
+                    },
+                    {
+                      key: "clearCache",
+                      icon: <LogoutOutlined />,
+                      label: "强制清除缓存",
+                      onClick: async () => {
+                        let res = await clearCache();
+                        message.success(JSON.stringify(res));
                       },
                     },
                   ],

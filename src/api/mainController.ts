@@ -2,6 +2,14 @@
 /* eslint-disable */
 import request from "@/utils/request";
 
+/** 强制清除缓存 GET /main/clearCache */
+export async function clearCache(options?: { [key: string]: any }) {
+  return request<API.RVoid>("/main/clearCache", {
+    method: "GET",
+    ...(options || {}),
+  });
+}
+
 /** 用户登录 POST /main/login */
 export async function loginMain(
   body: API.LoginReqDto,

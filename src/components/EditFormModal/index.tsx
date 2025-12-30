@@ -4,11 +4,11 @@ import FormModal from "../FormModal";
 interface Props<T = any> {
   visible: boolean;
   onCancel: () => void;
-  onSubmit: (values: T) => void;
+  onSubmit: (values: T) => void | Promise<void>;
   columns: any[];
   initialValues?: T;
   title?: string;
-  updateApi: (values: T) => Promise<any>;
+  updateApi?: (values: T) => Promise<any>;
   successMessage?: string;
   loadingMessage?: string;
   errorMessage?: string;
@@ -34,15 +34,17 @@ const EditFormModal = <T extends Record<string, any>>({
     // 初始数据合并
     const updateValue = { ...initialValues, ...values };
     try {
-      await updateApi(updateValue);
-      hide();
-      message.success(successMessage);
-      onSubmit(values);
+      if (updateApi) {
+        await updateApi(updateValue);
+        message.success(successMessage);
+      }
+      await onSubmit(values);
       return true;
     } catch (error: any) {
-      hide();
       message.error(errorMessage + "：" + error.message);
       return false;
+    } finally {
+      hide();
     }
   };
 

@@ -9,6 +9,8 @@ import * as mainController from "./mainController";
 import * as electronicFenceController from "./electronicFenceController";
 import * as distributorController from "./distributorController";
 import * as lockDeviceController from "./lockDeviceController";
+import * as datadictController from "./datadictController";
+import * as datadictItemController from "./datadictItemController";
 export default {
   userController,
   roleController,
@@ -17,4 +19,6 @@ export default {
   electronicFenceController,
   distributorController,
   lockDeviceController,
+  datadictController,
+  datadictItemController,
 };

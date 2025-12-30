@@ -13,6 +13,57 @@ declare namespace API {
     menuIds?: string[];
   };
 
+  type Datadict = {
+    id?: string;
+    /** 分类 */
+    category?: string;
+    name?: string;
+    remarks?: string;
+    createUser?: string;
+    createTime?: string;
+    items?: DatadictItem[];
+  };
+
+  type DatadictItem = {
+    id?: string;
+    did?: string;
+    k?: string;
+    v?: string;
+    location?: number;
+    createUser?: string;
+    createTime?: string;
+    /** 备注 */
+    remark?: string;
+  };
+
+  type DatadictItemQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** ID */
+    id?: string;
+    /** 字典ID */
+    did?: string;
+    /** 键 */
+    k?: string;
+    /** 值 */
+    v?: string;
+  };
+
+  type DatadictQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** ID */
+    id?: string;
+    /** 分类 */
+    category?: string;
+    /** 名称 */
+    name?: string;
+  };
+
   type deviceDelParams = {
     id: number;
   };
@@ -32,6 +83,34 @@ declare namespace API {
   type deviceUpdateStatusParams = {
     id: number;
     status: number;
+  };
+
+  type dictDelParams = {
+    id: string;
+  };
+
+  type dictGetByCategoryParams = {
+    category: string;
+  };
+
+  type dictGetParams = {
+    id: string;
+  };
+
+  type dictGetWithItemsParams = {
+    id: string;
+  };
+
+  type dictItemDelParams = {
+    id: string;
+  };
+
+  type dictItemGetParams = {
+    id: string;
+  };
+
+  type dictItemListByDictIdParams = {
+    dictId: string;
   };
 
   type Distributor = {
@@ -453,7 +532,7 @@ declare namespace API {
     icon?: string;
     /** 父路由ID */
     parentid?: string;
-    /** 路由类型 0:目录 1:菜单 2:按钮 */
+    /** 路由类型 0:目录 1:菜单 2:按钮 3:隐藏菜单 */
     type?: number;
     /** 子路由，数据库不存在 */
     children?: Menu[];
@@ -461,6 +540,28 @@ declare namespace API {
 
   type menuDelParams = {
     id: string;
+  };
+
+  type PageInfoDatadict = {
+    list?: Datadict[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoDatadictItem = {
+    list?: DatadictItem[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoDistributor = {
@@ -526,6 +627,22 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RDatadict = {
+    code?: number;
+    message?: string;
+    data?: Datadict;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RDatadictItem = {
+    code?: number;
+    message?: string;
+    data?: DatadictItem;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RDistributor = {
     code?: number;
     message?: string;
@@ -554,6 +671,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: ElectronicFence;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RListDatadictItem = {
+    code?: number;
+    message?: string;
+    data?: DatadictItem[];
     timestamp?: string;
     success?: boolean;
   };
@@ -643,6 +768,22 @@ declare namespace API {
 
   type roleGetMenusParams = {
     roleId: number;
+  };
+
+  type RPageInfoDatadict = {
+    code?: number;
+    message?: string;
+    data?: PageInfoDatadict;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoDatadictItem = {
+    code?: number;
+    message?: string;
+    data?: PageInfoDatadictItem;
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RPageInfoDistributor = {

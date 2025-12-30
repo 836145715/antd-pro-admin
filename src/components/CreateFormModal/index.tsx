@@ -4,10 +4,10 @@ import FormModal from "../FormModal";
 interface Props<T = any> {
   visible: boolean;
   onCancel: () => void;
-  onSubmit: () => void;
+  onSubmit: (values: T) => void | Promise<void>;
   columns: any[];
   title?: string;
-  createApi: (values: T) => Promise<any>;
+  createApi?: (values: T) => Promise<any>;
   successMessage?: string;
   loadingMessage?: string;
   errorMessage?: string;
@@ -30,15 +30,17 @@ const CreateFormModal = <T extends Record<string, any>>({
   const handleSubmit = async (values: T): Promise<boolean> => {
     const hide = message.loading(loadingMessage);
     try {
-      await createApi(values);
-      hide();
-      message.success(successMessage);
-      onSubmit();
+      if (createApi) {
+        await createApi(values);
+        message.success(successMessage);
+      }
+      await onSubmit(values);
       return true;
     } catch (error: any) {
-      hide();
       message.error(errorMessage + "：" + error.message);
       return false;
+    } finally {
+      hide();
     }
   };
 
