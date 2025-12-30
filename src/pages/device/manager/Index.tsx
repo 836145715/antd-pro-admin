@@ -29,6 +29,7 @@ import Title from "antd/es/typography/Title";
 import { useRef, useState } from "react";
 import CreateFormModal from "@/components/CreateFormModal";
 import EditFormModal from "@/components/EditFormModal";
+import { isOffline } from "@/utils/deviceUtil";
 
 /**
  * 设备管理页面
@@ -209,17 +210,12 @@ export default function DeviceManager() {
     },
     {
       title: "锁状态",
-      dataIndex: "lockStatus",
-      valueType: "select",
       width: 100,
       hideInSearch: true,
-      valueEnum: {
-        0: { text: "离线", status: "error" },
-        1: { text: "在线", status: "success" },
-      },
+      hideInForm: true,
       render: (_, record) => (
-        <Tag color={record.lockStatus === 1 ? "green" : "red"}>
-          {record.lockStatus === 1 ? "在线" : "离线"}
+        <Tag color={isOffline(record.onlineUpdateTime) ? "red" : "green"}>
+          {isOffline(record.onlineUpdateTime) ? "离线" : "在线"}
         </Tag>
       ),
     },

@@ -9,6 +9,7 @@ import {
 import { deviceList } from "@/api/lockDeviceController";
 import onlineIcon from "@/assets/icons/location-online.svg";
 import offlineIcon from "@/assets/icons/location-offline.svg";
+import { isOffline } from "@/utils/deviceUtil";
 
 const styles = {
   offlineMarker: {
@@ -124,25 +125,20 @@ const Welcome = () => {
     setMapInited(true);
   };
 
-  // 判断设备是否离线（根据最后在线时间超过5分钟）
-  const isDeviceOffline = (device: API.LockDevice): boolean => {
-    if (!device.onlineUpdateTime) return true;
-    const updateTime = new Date(device.onlineUpdateTime).getTime();
-    const now = Date.now();
-    // 离线判定时间 毫秒
-    return now - updateTime > 10 * 1000;
-  };
-
   // 统计在线/离线数量
-  const onlineCount = devices.filter((d) => !isDeviceOffline(d)).length;
-  const offlineCount = devices.filter((d) => isDeviceOffline(d)).length;
+  const onlineCount = devices.filter(
+    (d) => !isOffline(d.onlineUpdateTime)
+  ).length;
+  const offlineCount = devices.filter((d) =>
+    isOffline(d.onlineUpdateTime)
+  ).length;
   const totalCount = devices.length;
 
   // 构建标记点
   const markers = devices
     .filter((d) => d.longitude && d.latitude)
     .map((d) => ({
-      styleId: isDeviceOffline(d) ? "offlineMarker" : "onlineMarker",
+      styleId: isOffline(d.onlineUpdateTime) ? "offlineMarker" : "onlineMarker",
       position: {
         lat: d.latitude!,
         lng: d.longitude!,
@@ -291,9 +287,13 @@ const Welcome = () => {
               </Descriptions.Item>
               <Descriptions.Item label="状态">
                 <Tag
-                  color={isDeviceOffline(selectedDevice) ? "error" : "success"}
+                  color={
+                    isOffline(selectedDevice.onlineUpdateTime)
+                      ? "error"
+                      : "success"
+                  }
                 >
-                  {isDeviceOffline(selectedDevice) ? "离线" : "在线"}
+                  {isOffline(selectedDevice.onlineUpdateTime) ? "离线" : "在线"}
                 </Tag>
               </Descriptions.Item>
               <Descriptions.Item label="经度">

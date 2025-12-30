@@ -36,10 +36,10 @@ export const createColumns = ({
     hideInSearch: true,
   },
   {
-    title: "自行车编号",
+    title: "设备编号",
     dataIndex: "qrNumber",
     valueType: "text",
-    width: 140,
+    width: 100,
   },
   {
     title: "设备ID",
