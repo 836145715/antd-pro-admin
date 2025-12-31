@@ -518,6 +518,92 @@ declare namespace API {
     password: string;
   };
 
+  type MemberRidingOrder = {
+    id?: number;
+    /** 会员Id */
+    memberId?: number;
+    /** 预充值金额 */
+    preMoney?: number;
+    /** 消费金额 */
+    costAmount?: number;
+    /** 需支付金额 */
+    needAmount?: number;
+    /** 添加时间 */
+    insertTime?: string;
+    /** 备注 */
+    remark?: string;
+    /** 商户订单号 */
+    tradeNo?: string;
+    /** 商户返回交易单号 */
+    transactionId?: string;
+    /** 通知时间 */
+    notifyTime?: string;
+    /** 是否付款 */
+    hasPaid?: number;
+    /** 1 预充值 2 免密支付 3 超额主动支付 */
+    rechargeType?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributor?: string;
+    /** 行程开始时间 */
+    startTime?: string;
+    /** 行程结束时间 */
+    endTime?: string;
+    /** 骑行时长 */
+    tripTimespan?: number;
+    /** 1 自行车 2 电动车 */
+    lockType?: number;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 行程id */
+    tripId?: number;
+    /** 免密扣款次数 */
+    count?: number;
+    bicycleNumber?: string;
+  };
+
+  type MemberRidingOrderQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 会员ID */
+    memberId?: number;
+    /** 是否付款 0未付款 1已付款 */
+    hasPaid?: number;
+    /** 支付类型 1 预充值 2 免密支付 3 超额主动支付 */
+    rechargeType?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 锁编号 */
+    qrNumber?: string;
+    /** 行程ID */
+    tripId?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 商户订单号 */
+    tradeNo?: string;
+    /** 商户返回交易单号 */
+    transactionId?: string;
+    /** 1 自行车 2 电动车 */
+    lockType?: number;
+    /** 添加时间起 */
+    insertTimeStart?: string;
+    /** 添加时间止 */
+    insertTimeEnd?: string;
+    /** 行程开始时间起 */
+    startTimeStart?: string;
+    /** 行程开始时间止 */
+    startTimeEnd?: string;
+    /** 行程结束时间起 */
+    endTimeStart?: string;
+    /** 行程结束时间止 */
+    endTimeEnd?: string;
+  };
+
   type Menu = {
     id?: string;
     /** 路由名称 */
@@ -549,8 +635,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoDatadictItem = {
@@ -560,8 +646,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoDistributor = {
@@ -571,8 +657,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoDistributorWithdrawal = {
@@ -582,8 +668,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoElectronicFence = {
@@ -593,8 +679,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoLockDevice = {
@@ -604,8 +690,19 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
+  };
+
+  type PageInfoMemberRidingOrder = {
+    list?: MemberRidingOrder[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoTrip = {
@@ -615,8 +712,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoTripCommand = {
@@ -626,8 +723,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type PageInfoUser = {
@@ -637,8 +734,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    first?: boolean;
     last?: boolean;
+    first?: boolean;
   };
 
   type RBoolean = {
@@ -697,6 +794,26 @@ declare namespace API {
     success?: boolean;
   };
 
+  type ridingOrderDelParams = {
+    id: number;
+  };
+
+  type ridingOrderGetByTripIdParams = {
+    tripId: number;
+  };
+
+  type ridingOrderGetParams = {
+    id: number;
+  };
+
+  type ridingOrderListByMemberIdParams = {
+    memberId: number;
+  };
+
+  type ridingOrderListUnpaidByMemberIdParams = {
+    memberId: number;
+  };
+
   type RListDatadictItem = {
     code?: number;
     message?: string;
@@ -725,6 +842,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: LockDevice[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RListMemberRidingOrder = {
+    code?: number;
+    message?: string;
+    data?: MemberRidingOrder[];
     timestamp?: string;
     success?: boolean;
   };
@@ -781,6 +906,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: LoginInfoDto;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RMemberRidingOrder = {
+    code?: number;
+    message?: string;
+    data?: MemberRidingOrder;
     timestamp?: string;
     success?: boolean;
   };
@@ -852,6 +985,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: PageInfoLockDevice;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoMemberRidingOrder = {
+    code?: number;
+    message?: string;
+    data?: PageInfoMemberRidingOrder;
     timestamp?: string;
     success?: boolean;
   };

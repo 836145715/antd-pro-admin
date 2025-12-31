@@ -6,6 +6,7 @@ import * as userController from "./userController";
 import * as tripController from "./tripController";
 import * as tripCommandController from "./tripCommandController";
 import * as roleController from "./roleController";
+import * as memberRidingOrderController from "./memberRidingOrderController";
 import * as menuController from "./menuController";
 import * as mainController from "./mainController";
 import * as electronicFenceController from "./electronicFenceController";
@@ -18,6 +19,7 @@ export default {
   tripController,
   tripCommandController,
   roleController,
+  memberRidingOrderController,
   menuController,
   mainController,
   electronicFenceController,
