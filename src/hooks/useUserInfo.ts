@@ -1,4 +1,4 @@
-const loadUserInfo = (): API.LoginRspDto => {
+const loadUserInfo = (): API.LoginInfoDto => {
     const userInfo = localStorage.getItem("userInfo");
     if(userInfo) {
         return JSON.parse(userInfo);
@@ -6,7 +6,7 @@ const loadUserInfo = (): API.LoginRspDto => {
     return {};
 }
 
-const saveUserInfo = (userInfo: API.LoginRspDto) => {
+const saveUserInfo = (userInfo: API.LoginInfoDto) => {
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
 }   
 
