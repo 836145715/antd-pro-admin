@@ -8,6 +8,7 @@ import * as tripCommandController from "./tripCommandController";
 import * as roleController from "./roleController";
 import * as memberRidingOrderController from "./memberRidingOrderController";
 import * as repairRecordController from "./repairRecordController";
+import * as rechargeController from "./rechargeController";
 import * as operatingAreaController from "./operatingAreaController";
 import * as menuController from "./menuController";
 import * as memberCouponController from "./memberCouponController";
@@ -27,6 +28,7 @@ export default {
   roleController,
   memberRidingOrderController,
   repairRecordController,
+  rechargeController,
   operatingAreaController,
   menuController,
   memberCouponController,

@@ -474,6 +474,10 @@ declare namespace API {
     id: number;
   };
 
+  type getParams = {
+    id: number;
+  };
+
   type handleRepairParams = {
     id: number;
   };
@@ -1009,6 +1013,17 @@ declare namespace API {
     last?: boolean;
   };
 
+  type PageInfoRecharge = {
+    list?: Recharge[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
   type PageInfoRepairRecord = {
     list?: RepairRecord[];
     total?: string;
@@ -1107,6 +1122,72 @@ declare namespace API {
     data?: DistributorSetting;
     timestamp?: string;
     success?: boolean;
+  };
+
+  type Recharge = {
+    /** 金额流水id */
+    id?: number;
+    /** 会员Id */
+    memberId?: number;
+    /** 金额 */
+    amount?: number;
+    /** 添加时间 */
+    insertTime?: string;
+    /** 备注 */
+    remark?: string;
+    /** 商户单号 */
+    tradeNo?: string;
+    /** 退款订单号(原来交易号) */
+    refundTradeNo?: string;
+    /** 微信订单号 */
+    wxTradeNo?: string;
+    /** 通知时间 */
+    notifyTime?: string;
+    /** 支付状态 0-未支付 1-已支付 2-已退款 3-部分退款 4-已取消 */
+    payStatus?: number;
+    /** 充值类型 1-余额充值 2-余额退款 3-预付充值 4-预付退款 5-购买优惠券 6-优惠券退款 7-骑行支付 8-骑行退款 9-信用分支付 10-信用分退款 11-免密支付 12-免密退款 */
+    rechargeType?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 运营商id */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 车锁编号 */
+    bicycleNumber?: string;
+    /** 支付渠道: 1-银联, 2-易宝 */
+    payChannel?: number;
+    /** 用户登录的平台: 1-微信, 2-支付宝 */
+    userPlatform?: number;
+    /** 混合类型 */
+    mixedType?: number;
+    /** 混合类型备注 */
+    mixedRemark?: string;
+  };
+
+  type RechargeQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 商户单号 */
+    tradeNo?: string;
+    /** 充值类型 */
+    rechargeType?: number;
+    /** 支付状态 0-未支付 1-已支付 2-已退款 3-部分退款 4-已取消 */
+    payStatus?: number;
+    /** 支付渠道: 1-银联, 2-易宝 */
+    payChannel?: number;
+    /** 用户平台: 1-微信, 2-支付宝 */
+    userPlatform?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 查询开始日期 (yyyy-MM-dd) */
+    startDate?: string;
+    /** 查询结束日期 (yyyy-MM-dd) */
+    endDate?: string;
   };
 
   type RElectronicFence = {
@@ -1454,6 +1535,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RPageInfoRecharge = {
+    code?: number;
+    message?: string;
+    data?: PageInfoRecharge;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RPageInfoRepairRecord = {
     code?: number;
     message?: string;
@@ -1482,6 +1571,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: PageInfoUser;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RRecharge = {
+    code?: number;
+    message?: string;
+    data?: Recharge;
     timestamp?: string;
     success?: boolean;
   };
