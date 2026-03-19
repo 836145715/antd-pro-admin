@@ -85,6 +85,21 @@ export async function deviceList(options?: { [key: string]: any }) {
   });
 }
 
+/** 查找附近指定距离内的单车 根据经纬度和距离查找附近的单车，支持按车类型和设备状态筛选 POST /device/manager/nearby */
+export async function deviceNearby(
+  body: API.NearbyBikeQueryDto,
+  options?: { [key: string]: any }
+) {
+  return request<API.RListLockDevice>("/device/manager/nearby", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: body,
+    ...(options || {}),
+  });
+}
+
 /** 分页查询设备 POST /device/manager/page */
 export async function devicePage(
   body: API.LockDeviceQueryDto,

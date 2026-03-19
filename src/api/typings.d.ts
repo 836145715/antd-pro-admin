@@ -1,4 +1,12 @@
 declare namespace API {
+  type areaDelParams = {
+    id: number;
+  };
+
+  type areaGetParams = {
+    id: number;
+  };
+
   type AssignUserRoleReqDto = {
     /** 用户ID */
     userId?: number;
@@ -11,6 +19,57 @@ declare namespace API {
     roleId?: number;
     /** 路由ID列表 */
     menuIds?: string[];
+  };
+
+  type bindDistributorParams = {
+    memberId: number;
+    distributorId: number;
+  };
+
+  type Coupon = {
+    /** 主键ID */
+    id?: number;
+    /** 优惠券名称 */
+    name?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 创建时间 */
+    insertTime?: string;
+    /** 优惠券类型 1抵扣时长券 2时长卡 */
+    type?: string;
+    /** 说明 */
+    description?: string;
+    /** 价格 */
+    price?: number;
+    /** 单次抵扣时长(分钟) */
+    freeDuration?: number;
+    /** 抵扣价格(元) */
+    freeAmount?: number;
+    /** 有效时长(天) */
+    effectiveDuration?: number;
+  };
+
+  type couponDelParams = {
+    id: number;
+  };
+
+  type couponGetParams = {
+    id: number;
+  };
+
+  type CouponQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 优惠券名称 */
+    name?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 优惠券类型 1抵扣时长券 2时长卡 */
+    type?: string;
   };
 
   type Datadict = {
@@ -195,27 +254,6 @@ declare namespace API {
     payAccount?: string;
     /** 支付转转款备注 */
     payRemark?: string;
-    name1?: string;
-    account1?: string;
-    ratio1?: number;
-    remark1?: string;
-    name2?: string;
-    account2?: string;
-    ratio2?: number;
-    remark2?: string;
-    name3?: string;
-    account3?: string;
-    ratio3?: number;
-    remark3?: string;
-    priName?: string;
-    priMid?: string;
-    priRatio?: number;
-    thidrName1?: string;
-    thidrMid1?: string;
-    thirdRatio1?: number;
-    thirdName2?: string;
-    thirdMid2?: string;
-    thirdRatio2?: number;
   };
 
   type distributorAccountParams = {
@@ -282,6 +320,10 @@ declare namespace API {
     announceContent?: string;
     /** 手机号 */
     mobile?: string;
+    /** 易宝支付开关 0-关闭 1-开启 */
+    ebpayStatus?: number;
+    /** 银联支付开关 0-关闭 1-开启 */
+    umspayStatus?: number;
   };
 
   type distributorSettingParams = {
@@ -432,6 +474,10 @@ declare namespace API {
     id: number;
   };
 
+  type handleRepairParams = {
+    id: number;
+  };
+
   type LockDevice = {
     id?: number;
     /** imei号 */
@@ -511,11 +557,167 @@ declare namespace API {
     loginToken?: string;
   };
 
+  type LoginRecord = {
+    /** 主键ID */
+    id?: number;
+    /** 用户ID */
+    userId?: number;
+    /** 操作系统 */
+    osName?: string;
+    /** 设备名 */
+    device?: string;
+    /** 浏览器类型 */
+    browserType?: string;
+    /** IP地址 */
+    ipAddress?: string;
+    /** 登录时间 */
+    createTime?: string;
+    /** 用户账号 */
+    username?: string;
+    /** 用户昵称 */
+    nickName?: string;
+  };
+
+  type loginRecordGetParams = {
+    id: number;
+  };
+
+  type LoginRecordQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 用户账号 */
+    account?: string;
+    /** 开始日期 (yyyy-MM-dd) */
+    startDate?: string;
+    /** 结束日期 (yyyy-MM-dd) */
+    endDate?: string;
+  };
+
   type LoginReqDto = {
     /** 用户名 */
     username: string;
     /** 密码 */
     password: string;
+  };
+
+  type MemberCoupon = {
+    /** 主键ID */
+    id?: number;
+    /** 会员ID */
+    memberId?: number;
+    /** 状态 0失效 1有效 */
+    status?: number;
+    /** 购买日期 */
+    insertTime?: string;
+    /** 优惠券ID */
+    couponId?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 优惠券名称 */
+    couponName?: string;
+    /** 优惠券类型 1抵扣时长券 2时长卡 */
+    couponType?: string;
+    /** 说明 */
+    couponDesc?: string;
+    /** 价格 */
+    couponPrice?: number;
+    /** 单次抵扣时长(分钟) */
+    freeDuration?: number;
+    /** 抵扣价格(元) */
+    freeAmount?: number;
+    /** 有效时长(天) */
+    effectiveDuration?: number;
+    /** 手机号 */
+    mobile?: string;
+    /** 交易号 */
+    tradeNo?: string;
+  };
+
+  type memberCouponGetParams = {
+    id: number;
+  };
+
+  type MemberCouponQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 会员ID */
+    memberId?: number;
+    /** 状态 0失效 1有效 */
+    status?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 手机号 */
+    mobile?: string;
+  };
+
+  type memberGetParams = {
+    id: number;
+  };
+
+  type MemberInfo = {
+    /** 主键ID */
+    id?: number;
+    /** 姓名 */
+    name?: string;
+    /** 手机号 */
+    mobile?: string;
+    /** 余额 */
+    balance?: number;
+    /** 状态 1正常 2骑行中 0已拉黑 */
+    status?: number;
+    /** 登录标识 1:微信登录 2:支付宝登录 */
+    loginFlag?: number;
+    /** 支付宝openid */
+    aliOpenId?: string;
+    /** 骑乘次数 */
+    tripCount?: number;
+    /** 总消费 */
+    totalFee?: number;
+    /** 微信缓存key */
+    sessionkey?: string;
+    /** 运维标识 0否 1是 */
+    isMaintain?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 支付后想开的锁 */
+    lastWantLock?: string;
+    /** 免密参数 */
+    authorizationCode?: string;
+    /** 微信openid */
+    wxOpenId?: string;
+    /** 公众号openid */
+    gzhOpenId?: string;
+    /** 微信unionId */
+    unionId?: string;
+    /** 是否关注公众号 0否 1是 */
+    isSubscribe?: number;
+    /** 注册时间 */
+    insertTime?: string;
+  };
+
+  type MemberInfoQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 姓名 */
+    name?: string;
+    /** 手机号 */
+    mobile?: string;
+    /** 状态 1正常 2骑行中 0已拉黑 */
+    status?: number;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运维标识 0否 1是 */
+    isMaintain?: number;
   };
 
   type MemberRidingOrder = {
@@ -628,6 +830,64 @@ declare namespace API {
     id: string;
   };
 
+  type NearbyBikeQueryDto = {
+    /** 经度 */
+    longitude: number;
+    /** 纬度 */
+    latitude: number;
+    /** 搜索距离，单位：公里，默认1km */
+    distance?: number;
+    /** 车类型 1自行车 2电动车 3蓝牙车 */
+    bicycleType?: number;
+    /** 设备状态 1开锁 2关锁 */
+    status?: number;
+  };
+
+  type OperatingArea = {
+    /** 主键ID */
+    id?: number;
+    /** 名称 */
+    name?: string;
+    /** 描述 */
+    description?: string;
+    /** 插入时间 */
+    insertTime?: string;
+    /** 区域坐标，多组数据以分号(;)分隔，经纬度以逗号(,)分隔 */
+    area?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 区域中心点 */
+    centerPoint?: string;
+    /** 状态 */
+    status?: number;
+  };
+
+  type OperatingAreaQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 名称 */
+    name?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 状态 */
+    status?: number;
+  };
+
+  type PageInfoCoupon = {
+    list?: Coupon[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
   type PageInfoDatadict = {
     list?: Datadict[];
     total?: string;
@@ -635,8 +895,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoDatadictItem = {
@@ -646,8 +906,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoDistributor = {
@@ -657,8 +917,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoDistributorWithdrawal = {
@@ -668,8 +928,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoElectronicFence = {
@@ -679,8 +939,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoLockDevice = {
@@ -690,8 +950,41 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoLoginRecord = {
+    list?: LoginRecord[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoMemberCoupon = {
+    list?: MemberCoupon[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoMemberInfo = {
+    list?: MemberInfo[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoMemberRidingOrder = {
@@ -701,8 +994,30 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoOperatingArea = {
+    list?: OperatingArea[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
+  };
+
+  type PageInfoRepairRecord = {
+    list?: RepairRecord[];
+    total?: string;
+    current?: string;
+    size?: string;
+    pages?: string;
+    timestamp?: string;
+    first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoTrip = {
@@ -712,8 +1027,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoTripCommand = {
@@ -723,8 +1038,8 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type PageInfoUser = {
@@ -734,14 +1049,22 @@ declare namespace API {
     size?: string;
     pages?: string;
     timestamp?: string;
-    last?: boolean;
     first?: boolean;
+    last?: boolean;
   };
 
   type RBoolean = {
     code?: number;
     message?: string;
     data?: boolean;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RCoupon = {
+    code?: number;
+    message?: string;
+    data?: Coupon;
     timestamp?: string;
     success?: boolean;
   };
@@ -792,6 +1115,60 @@ declare namespace API {
     data?: ElectronicFence;
     timestamp?: string;
     success?: boolean;
+  };
+
+  type repairGetParams = {
+    id: number;
+  };
+
+  type RepairRecord = {
+    /** 主键ID */
+    id?: number;
+    /** 用户ID */
+    memberId?: number;
+    /** 用户名称 */
+    memberName?: string;
+    /** 图片地址 */
+    picUrl?: string;
+    /** 反馈信息 */
+    feedback?: string;
+    /** 添加时间 */
+    insertTime?: string;
+    /** 状态 0未解决 1已解决 */
+    status?: number;
+    /** 解决时间 */
+    solveTime?: string;
+    /** 是否有效 */
+    isValid?: number;
+    /** 车牌编号 */
+    qrNumber?: string;
+    /** 客服备注 */
+    csRemark?: string;
+    /** 姓名 */
+    realName?: string;
+    /** 手机号 */
+    mobile?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 运营商名称 */
+    distributorName?: string;
+    /** 报修部位 */
+    repairParts?: string;
+  };
+
+  type RepairRecordQueryDto = {
+    /** 页码 */
+    pageNum?: number;
+    /** 每页数量 */
+    pageSize?: number;
+    /** 状态 0未解决 1已解决 */
+    status?: number;
+    /** 车牌编号 */
+    qrNumber?: string;
+    /** 运营商ID */
+    distributorId?: number;
+    /** 手机号 */
+    mobile?: string;
   };
 
   type ridingOrderDelParams = {
@@ -862,6 +1239,14 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RListOperatingArea = {
+    code?: number;
+    message?: string;
+    data?: OperatingArea[];
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RListRole = {
     code?: number;
     message?: string;
@@ -910,6 +1295,30 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RLoginRecord = {
+    code?: number;
+    message?: string;
+    data?: LoginRecord;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RMemberCoupon = {
+    code?: number;
+    message?: string;
+    data?: MemberCoupon;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RMemberInfo = {
+    code?: number;
+    message?: string;
+    data?: MemberInfo;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RMemberRidingOrder = {
     code?: number;
     message?: string;
@@ -939,6 +1348,22 @@ declare namespace API {
 
   type roleGetMenusParams = {
     roleId: number;
+  };
+
+  type ROperatingArea = {
+    code?: number;
+    message?: string;
+    data?: OperatingArea;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoCoupon = {
+    code?: number;
+    message?: string;
+    data?: PageInfoCoupon;
+    timestamp?: string;
+    success?: boolean;
   };
 
   type RPageInfoDatadict = {
@@ -989,10 +1414,50 @@ declare namespace API {
     success?: boolean;
   };
 
+  type RPageInfoLoginRecord = {
+    code?: number;
+    message?: string;
+    data?: PageInfoLoginRecord;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoMemberCoupon = {
+    code?: number;
+    message?: string;
+    data?: PageInfoMemberCoupon;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoMemberInfo = {
+    code?: number;
+    message?: string;
+    data?: PageInfoMemberInfo;
+    timestamp?: string;
+    success?: boolean;
+  };
+
   type RPageInfoMemberRidingOrder = {
     code?: number;
     message?: string;
     data?: PageInfoMemberRidingOrder;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoOperatingArea = {
+    code?: number;
+    message?: string;
+    data?: PageInfoOperatingArea;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RPageInfoRepairRecord = {
+    code?: number;
+    message?: string;
+    data?: PageInfoRepairRecord;
     timestamp?: string;
     success?: boolean;
   };
@@ -1017,6 +1482,14 @@ declare namespace API {
     code?: number;
     message?: string;
     data?: PageInfoUser;
+    timestamp?: string;
+    success?: boolean;
+  };
+
+  type RRepairRecord = {
+    code?: number;
+    message?: string;
+    data?: RepairRecord;
     timestamp?: string;
     success?: boolean;
   };
@@ -1051,6 +1524,16 @@ declare namespace API {
     data?: Record<string, any>;
     timestamp?: string;
     success?: boolean;
+  };
+
+  type toBlackParams = {
+    id: number;
+    type: number;
+  };
+
+  type toOperationsParams = {
+    id: number;
+    type: number;
   };
 
   type Trip = {
@@ -1200,6 +1683,10 @@ declare namespace API {
     endTimeEnd?: string;
     /** 用户手机号 */
     mobile?: string;
+  };
+
+  type unbindDistributorParams = {
+    id: number;
   };
 
   type User = {
